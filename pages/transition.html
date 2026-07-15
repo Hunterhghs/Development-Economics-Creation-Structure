@@ -68,18 +68,11 @@
         height: 100%;
     }
     .skip-link {
-        position: absolute;
-        top: -100%;
-        left: 1rem;
-        background: #c9a84c;
-        color: #0a0e14;
-        padding: 0.5rem 1rem;
-        font-family: 'IBM Plex Sans', sans-serif;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        z-index: 200;
-        transition: top 150ms ease;
-        text-decoration: none;
+        position: absolute; top: -100%; left: 1rem;
+        background: #c9a84c; color: #0a0e14;
+        padding: 0.5rem 1rem; font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 0.8125rem; font-weight: 600; z-index: 200;
+        transition: top 150ms ease; text-decoration: none;
     }
     .skip-link:focus { top: 1rem; }
 </style>
@@ -88,11 +81,12 @@
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
+<!-- TopNavBar -->
 <header class="sticky top-0 z-50 flex justify-between items-center px-4 md:px-8 w-full backdrop-blur-sm bg-[#0a0e14] border-b border-[#7eb8da]/20 h-16">
     <a href="../index.html" class="font-headline text-lg md:text-xl font-bold tracking-tighter text-[#c9a84c] no-underline">
         CREATION STRUCTURE
     </a>
-    <nav class="hidden md:flex items-center space-x-6 h-full">
+    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 h-full">
         <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="../index.html">Home</a>
         <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="diffusion.html">Diffusion</a>
         <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="structure.html">Structure</a>
@@ -100,6 +94,9 @@
         <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="framework.html">Framework</a>
     </nav>
     <div class="flex items-center space-x-4">
+        <div class="hidden lg:block relative">
+            <input class="bg-transparent border border-[#7eb8da]/30 text-[#7eb8da] px-4 py-1 text-sm focus:outline-none focus:border-[#c9a84c] transition-colors w-40" placeholder="Search..." type="text"/>
+        </div>
         <button class="text-[#c9a84c] md:hidden">
             <span class="material-symbols-outlined">menu</span>
         </button>
@@ -108,6 +105,7 @@
 
 <main id="main-content" class="relative hairline-grid">
 
+<!-- Hero Section -->
 <section class="relative pt-20 md:pt-24 pb-12 md:pb-16 px-4 md:px-8 max-w-7xl mx-auto overflow-hidden">
     <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#c9a84c]/5 rounded-full blur-[100px]"></div>
     <div class="relative z-10">
@@ -124,6 +122,7 @@
     </div>
 </section>
 
+<!-- Metric Row -->
 <section class="px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
     <div class="group border border-[#7eb8da]/10 bg-[#111821]/50 p-6 transition-all hover:border-[#c9a84c]/40">
         <div class="flex justify-between items-start mb-4">
@@ -154,21 +153,18 @@
     </div>
 </section>
 
+<!-- Main Content (Stacked) -->
 <section class="max-w-4xl mx-auto px-4 md:px-8">
 
     <article class="py-16 border-t border-[#7eb8da]/20">
-        <div class="flex flex-col md:flex-row gap-12">
-            <div class="flex-1">
-                <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Phase Transitions: When Systems Change Discontinuously</h2>
-                <div class="max-w-none">
-                    <p class="drop-cap text-lg text-[#7eb8da]/90 leading-relaxed mb-6 italic">
-                        Economic development is rarely a linear progression. Instead, it mirrors the physical phenomenon of percolation. In network theory, connectivity does not grow proportionally with coverage; it jumps. As infrastructure nodes are added to an economy, the system remains a collection of isolated clusters until a precise threshold&mdash;the percolation threshold&mdash;is reached. At this critical density, a "giant component" emerges, suddenly linking the entire system.
-                    </p>
-                    <p class="text-[#7eb8da]/80 leading-relaxed">
-                        This jump is discontinuous. A single bridge, a single fiber-optic cable, or a single policy shift can be the final node that tips the network from fragmentation to total integration. In development economics, this explains why infrastructure projects often yield zero marginal returns for years before suddenly catalyzing an explosion of regional growth.
-                    </p>
-                </div>
-            </div>
+        <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Phase Transitions: When Systems Change Discontinuously</h2>
+        <div class="max-w-none">
+            <p class="drop-cap text-lg text-[#7eb8da]/90 leading-relaxed mb-6 italic">
+                Economic development is rarely a linear progression. Instead, it mirrors the physical phenomenon of percolation. In network theory, connectivity does not grow proportionally with coverage; it jumps. As infrastructure nodes are added to an economy, the system remains a collection of isolated clusters until a precise threshold&mdash;the percolation threshold&mdash;is reached. At this critical density, a "giant component" emerges, suddenly linking the entire system.
+            </p>
+            <p class="text-[#7eb8da]/80 leading-relaxed">
+                This jump is discontinuous. A single bridge, a single fiber-optic cable, or a single policy shift can be the final node that tips the network from fragmentation to total integration. In development economics, this explains why infrastructure projects often yield zero marginal returns for years before suddenly catalyzing an explosion of regional growth.
+            </p>
         </div>
         <div class="mt-12 group relative border border-[#7eb8da]/20 aspect-video bg-[#0d1117] overflow-hidden">
             <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center pointer-events-none z-10">
@@ -180,18 +176,14 @@
     </article>
 
     <article class="py-16 border-t border-[#7eb8da]/20">
-        <div class="flex flex-col md:flex-row gap-12">
-            <div class="flex-1">
-                <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Attractor States: Why Poverty Traps Are Stable</h2>
-                <div class="max-w-none">
-                    <p class="text-lg text-[#7eb8da]/90 leading-relaxed mb-6">
-                        Why do some economies remain stagnant despite decades of intervention? The answer lies in the topology of attractor basins. Using the language of dynamical systems, we can visualize the economic state of a nation as a point on a complex potential landscape. Stable equilibria, or "attractors," are the valleys in this landscape where the system naturally settles.
-                    </p>
-                    <p class="text-[#7eb8da]/80 leading-relaxed">
-                        A poverty trap is not a failure of the system; it is a highly stable, self-reinforcing equilibrium. Minor policy changes are like small nudges to a ball at the bottom of a deep well; the ball rolls back to its original position. To "transition" out of such a state, the system requires a shock large enough to push the economy over the ridge of the basin and into a different, more prosperous attractor.
-                    </p>
-                </div>
-            </div>
+        <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Attractor States: Why Poverty Traps Are Stable</h2>
+        <div class="max-w-none">
+            <p class="text-lg text-[#7eb8da]/90 leading-relaxed mb-6">
+                Why do some economies remain stagnant despite decades of intervention? The answer lies in the topology of attractor basins. Using the language of dynamical systems, we can visualize the economic state of a nation as a point on a complex potential landscape. Stable equilibria, or "attractors," are the valleys in this landscape where the system naturally settles.
+            </p>
+            <p class="text-[#7eb8da]/80 leading-relaxed">
+                A poverty trap is not a failure of the system; it is a highly stable, self-reinforcing equilibrium. Minor policy changes are like small nudges to a ball at the bottom of a deep well; the ball rolls back to its original position. To "transition" out of such a state, the system requires a shock large enough to push the economy over the ridge of the basin and into a different, more prosperous attractor.
+            </p>
         </div>
         <div class="mt-12 group relative border border-[#7eb8da]/20 aspect-video bg-[#0d1117] overflow-hidden">
             <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center pointer-events-none z-10">
@@ -203,23 +195,20 @@
     </article>
 
     <article class="py-16 border-t border-[#7eb8da]/20 mb-16">
-        <div class="flex flex-col md:flex-row gap-12">
-            <div class="flex-1">
-                <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Symmetry Breaking: The Diffusion Gap Explained</h2>
-                <div class="max-w-none">
-                    <p class="text-lg text-[#7eb8da]/90 leading-relaxed mb-6">
-                        In theoretical physics, the Higgs mechanism explains how a uniform field can interact with different particles to grant them mass, effectively breaking the symmetry of the vacuum. We apply this to technology diffusion. Consider a global "field" of technological innovation that is uniform across the globe.
-                    </p>
-                    <p class="text-[#7eb8da]/80 leading-relaxed">
-                        When this field meets heterogeneous local capacities (the "mass" of human capital, legal institutions, and infrastructure), symmetry is broken. Regions with higher capacity interact more strongly with the innovation field, gaining more "economic mass" and creating a divergence gap. The result is a fractured global landscape where the same technology creates vastly different outcomes based on the local medium it passes through.
-                    </p>
-                </div>
-            </div>
+        <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Symmetry Breaking: The Diffusion Gap Explained</h2>
+        <div class="max-w-none">
+            <p class="text-lg text-[#7eb8da]/90 leading-relaxed mb-6">
+                In theoretical physics, the Higgs mechanism explains how a uniform field can interact with different particles to grant them mass, effectively breaking the symmetry of the vacuum. We apply this to technology diffusion. Consider a global "field" of technological innovation that is uniform across the globe.
+            </p>
+            <p class="text-[#7eb8da]/80 leading-relaxed">
+                When this field meets heterogeneous local capacities (the "mass" of human capital, legal institutions, and infrastructure), symmetry is broken. Regions with higher capacity interact more strongly with the innovation field, gaining more "economic mass" and creating a divergence gap. The result is a fractured global landscape where the same technology creates vastly different outcomes based on the local medium it passes through.
+            </p>
         </div>
     </article>
 
 </section>
 
+<!-- Insight Cards Grid -->
 <section class="bg-[#111821]/30 border-y border-[#7eb8da]/10 py-24 px-4 md:px-8">
     <div class="max-w-7xl mx-auto">
         <div class="mb-12 text-center">
@@ -255,6 +244,7 @@
     </div>
 </section>
 
+<!-- Newsletter CTA -->
 <section class="py-24 px-4 md:px-8 text-center max-w-2xl mx-auto">
     <h3 class="text-2xl font-headline font-medium text-[#c9a84c] mb-6">Explore the Mathematical Foundation of Modern Markets</h3>
     <p class="text-[#7eb8da]/60 mb-8 font-body">Sign up for our quarterly print journal, delivering deep-dives into the physics of economic development.</p>
@@ -266,6 +256,7 @@
 
 </main>
 
+<!-- Footer -->
 <footer class="w-full py-12 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center border-t border-[#7eb8da]/20 bg-[#0a0e14]">
     <div class="mb-8 md:mb-0">
         <div class="font-headline text-lg font-medium text-[#c9a84c] mb-2">Creation Structure &amp; Development Economics</div>
@@ -282,11 +273,9 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="../assets/js/visualizations.js"></script>
 <script>
-    // Adapt D3 viz for Stitch containers (aspect-video with overlay)
     drawPercolationThreshold('viz-percolation');
     drawAttractorLandscape('viz-attractor');
 
-    // Hover lift on cards
     document.querySelectorAll('.group').forEach(function(card) {
         card.addEventListener('mouseenter', function() { card.style.transform = 'translateY(-2px)'; });
         card.addEventListener('mouseleave', function() { card.style.transform = 'translateY(0)'; });
