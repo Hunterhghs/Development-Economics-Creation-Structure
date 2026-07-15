@@ -32,123 +32,135 @@
 
 <section class="page-hero">
     <div class="page-hero-inner">
+        <div class="volume-label">Volume IV &bull; Regime Transitions</div>
         <h1>Transition: Tipping Points, Attractors &amp; Regime Change</h1>
-        <p class="subtitle">Why Economies Don't Drift — They Tip, and the Mathematics of Phase Transitions Explains When</p>
+        <p class="subtitle">Why economies don't drift&mdash;they tip, and the mathematics of phase transitions explains when.</p>
     </div>
 </section>
 
 <section class="stat-row">
     <div class="stat-card">
-        <div class="stat-card-label">Phase Transition Threshold</div>
+        <div class="stat-card-sub">Measure: P<sub>c</sub> analytics</div>
         <div class="stat-card-title">Critical Threshold</div>
-        <div class="stat-card-desc">The parameter value at which a system shifts abruptly from one regime to another. Below it, shocks absorb smoothly; above it, the same shock produces a cascade.</div>
+        <div class="stat-card-desc">Measure of phase transition probability based on site percolation in square lattices.</div>
+        <div class="stat-card-value">0.5927</div>
     </div>
     <div class="stat-card">
-        <div class="stat-card-label">Stability Measure</div>
+        <div class="stat-card-sub">Stability: &Omega; landscape</div>
         <div class="stat-card-title">Attractor Basin Width</div>
-        <div class="stat-card-desc">The resilience of the current economic equilibrium. Poverty traps are attractors — they resist small perturbations. Escape requires crossing the basin boundary.</div>
+        <div class="stat-card-desc">The metric volume of the current economic equilibrium's basin of attraction.</div>
+        <div class="stat-card-value">14.8 &sigma;</div>
     </div>
     <div class="stat-card">
-        <div class="stat-card-label">Connectivity Threshold</div>
+        <div class="stat-card-sub">Connectivity: p hub</div>
         <div class="stat-card-title">Percolation p<sub>c</sub></div>
-        <div class="stat-card-desc">The critical density at which a network transitions from isolated clusters to a spanning giant component. One additional node can transform the system.</div>
+        <div class="stat-card-desc">Critical density required for global network connectivity and technology diffusion.</div>
+        <div class="stat-card-value">63.2%</div>
     </div>
 </section>
 
-<!-- ===== Phase Transitions ===== -->
 <section class="prose-section">
     <div class="stacked-section">
         <h3>Phase Transitions: When Systems Change Discontinuously</h3>
         <div class="prose-columns">
             <div>
-                <p>Percolation theory describes the emergence of long-range connectivity in random networks. Below a critical threshold, a network consists of isolated clusters with no path between distant nodes. Above the threshold, a <span class="highlight">giant connected component</span> appears — a spanning structure that links most of the network. The transition is not gradual; it is a phase transition, discontinuous at the critical point.</p>
-                <p>Digital and energy infrastructure exhibits precisely this behaviour. Mobile network penetration, electricity grid coverage, road connectivity, and financial inclusion each have a <span class="highlight">percolation threshold</span> below which utility is local and fragmented, and above which it becomes a systemic enabler of economic participation.</p>
+                <p>Economic development is rarely a linear progression. Instead, it mirrors the physical phenomenon of <span class="highlight">percolation</span>. In network theory, connectivity does not grow proportionally with coverage; it jumps. As infrastructure nodes are added to an economy, the system remains a collection of isolated clusters until a precise threshold&mdash;the percolation threshold&mdash;is reached. At this critical density, a <span class="highlight">"giant component"</span> emerges, suddenly linking the entire system.</p>
+                <p>This jump is discontinuous. A single bridge, a single fiber-optic cable, or a single policy shift can be the final node that tips the network from fragmentation to total integration. In development economics, this explains why infrastructure projects often yield <span class="highlight">zero marginal returns for years</span> before suddenly catalyzing an explosion of regional growth.</p>
             </div>
             <div>
-                <p>The economic value of each does not grow linearly with coverage. It grows <span class="highlight">superlinearly</span> — approaching Metcalfe's Law, in which the value of a network is proportional to the square of its connected nodes. Development investment in infrastructure is, structurally, the act of pushing a system across its percolation threshold.</p>
-                <p>This is why infrastructure investment in frontier economies is so frequently evaluated as disappointing. The productivity gains from connectivity are non-linear and threshold-dependent. <span class="highlight">Measuring impact before the threshold is crossed is measuring the wrong part of the curve.</span></p>
+                <p>The standard cost-benefit analysis of individual infrastructure projects misses this entirely. The value of a marginal infrastructure investment is not its direct productive utility in isolation; it is its <span class="highlight">contribution to the probability of crossing the threshold</span>. Projects that appear marginally viable individually may be collectively transformative.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== Viz: Percolation ===== -->
 <section class="viz-container">
     <div class="viz-frame">
         <div class="viz-frame-header">
-            <span class="viz-frame-title">Percolation Threshold — Network Connectivity vs Coverage</span>
-            <span class="viz-frame-badge">Interactive</span>
+            <span class="figure-label">Fig 1.1 &mdash; Simulation Results</span>
         </div>
         <div class="viz-frame-body" id="viz-percolation"></div>
+        <div style="padding: var(--space-sm) var(--space-lg);">
+            <p class="figure-caption">Percolation Threshold &mdash; Network Connectivity vs Coverage</p>
+        </div>
     </div>
 </section>
 
-<!-- ===== Attractor States ===== -->
 <section class="prose-section">
     <div class="stacked-section">
         <h3>Attractor States: Why Poverty Traps Are Stable</h3>
         <div class="prose-columns">
             <div>
-                <p>In dynamical systems, an attractor is a region of state space toward which a system tends to evolve for a wide variety of starting conditions. Most real systems have <span class="highlight">multiple possible attractors</span>, each with its own basin — the set of starting conditions from which the system will eventually reach that attractor rather than any other.</p>
-                <p>Convergence theory holds that economies tend toward a common productivity frontier. Empirical evidence has complicated this considerably: convergence appears <span class="highlight">conditional</span> — operating within clusters of countries with similar institutional structures — rather than global. Countries that do not share these characteristics diverge from the frontier.</p>
+                <p>Why do some economies remain stagnant despite decades of intervention? The answer lies in the topology of <span class="highlight">attractor basins</span>. Using the language of dynamical systems, we can visualize the economic state of a nation as a point on a complex potential landscape. Stable equilibria, or "attractors," are the valleys in this landscape where the system naturally settles.</p>
             </div>
             <div>
-                <p>This is the economics of <span class="highlight">multiple attractor basins</span>. The global productivity frontier is one attractor, but poverty traps — low-equilibrium states characterised by insufficient capital accumulation and institutional fragility — are also attractors. They resist small perturbations.</p>
-                <p>Policy aimed at incremental improvement within the low attractor may not produce convergence — it may simply <span class="highlight">optimise the poverty trap</span>. What is required is a perturbation of sufficient magnitude to cross the basin boundary: a large-scale infrastructure investment, an institutional reform that shifts the attractor geometry itself.</p>
+                <p>A poverty trap is not a failure of the system; it is a <span class="highlight">highly stable, self-reinforcing equilibrium</span>. Minor policy changes are like small nudges to a ball at the bottom of a deep well; the ball rolls back to its original position. To "transition" out of such a state, the system requires a shock large enough to push the economy over the ridge of the basin and into a different, more prosperous attractor.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== Viz: Attractor Landscape ===== -->
 <section class="viz-container">
     <div class="viz-frame">
         <div class="viz-frame-header">
-            <span class="viz-frame-title">Attractor Landscape — Convergence Paths &amp; Poverty Traps</span>
-            <span class="viz-frame-badge">Interactive</span>
+            <span class="figure-label">Fig 1.2 &mdash; Topographical Analysis</span>
         </div>
         <div class="viz-frame-body" id="viz-attractor"></div>
+        <div style="padding: var(--space-sm) var(--space-lg);">
+            <p class="figure-caption">Attractor Landscape &mdash; Convergence Paths &amp; Poverty Traps</p>
+        </div>
     </div>
 </section>
 
-<!-- ===== Symmetry Breaking ===== -->
 <section class="prose-section">
     <div class="stacked-section">
         <h3>Symmetry Breaking: The Diffusion Gap Explained</h3>
         <div class="prose-columns">
             <div>
-                <p>The Higgs mechanism describes how the uniform, symmetric state of the early universe differentiated into distinct forces and particles. A field that is perfectly homogeneous contains no structure; structure emerges from <span class="highlight">symmetry breaking</span>.</p>
-                <p>The diffusion gap obeys the same logic. Before a general-purpose technology reaches broad commercial deployment, the knowledge underlying it is approximately homogeneous — research is published in open journals, code is released in open-source repositories. The knowledge field is symmetric: any economy has equal access to the information.</p>
+                <p>In theoretical physics, the Higgs mechanism explains how a uniform field can interact with different particles to grant them mass, effectively <span class="highlight">breaking the symmetry of the vacuum</span>. We apply this to technology diffusion. Consider a global "field" of technological innovation that is uniform across the globe.</p>
+                <p>When this field meets heterogeneous local capacities (the "mass" of human capital, legal institutions, and infrastructure), symmetry is broken. Regions with higher capacity interact more strongly with the innovation field, gaining more <span class="highlight">"economic mass"</span> and creating a divergence gap. The result is a fractured global landscape where the same technology creates vastly different outcomes based on the local medium it passes through.</p>
             </div>
             <div>
-                <p>Then the technology meets <span class="highlight">differentiated absorptive capacities</span>, and symmetry breaks. The same technology, the same underlying physics, produces radically different economic outcomes across different media. The symmetry of the knowledge field shatters against the asymmetry of institutional capacity.</p>
-                <p>The policy question is therefore not how to distribute knowledge more widely — it is how to <span class="highlight">homogenise the conditions</span> under which the knowledge field interacts with different economic media.</p>
+                <div class="quote-block">
+                    <p>"The symmetry of the knowledge field shatters against the asymmetry of institutional capacity."</p>
+                </div>
             </div>
         </div>
     </div>
+</section>
+
+<section class="prose-section">
+    <h2>Theoretical Syntheses</h2>
+    <p class="section-eyebrow">Core Transition Principles</p>
 </section>
 
 <section class="insight-grid">
     <div class="insight-card">
         <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/><circle cx="17" cy="7" r="1.5"/><circle cx="7" cy="17" r="1.5"/><line x1="17" y1="7" x2="7" y2="17"/><line x1="7" y1="7" x2="17" y2="17" stroke-dasharray="2 2"/></svg></span>
         <h4>One additional node can tip the network</h4>
-        <p>Infrastructure investment that appears marginally viable individually may be collectively transformative if it represents the increment that crosses the percolation threshold.</p>
+        <p>The transition from isolated regional markets to a national economic powerhouse is often a non-linear event triggered by a single critical connection.</p>
     </div>
     <div class="insight-card">
         <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 14c4-6 16-6 20 0" fill="currentColor" fill-opacity="0.1"/><circle cx="12" cy="18" r="1.5" fill="currentColor"/></svg></span>
         <h4>Poverty traps are attractors, not failures</h4>
-        <p>Low-equilibrium states resist small perturbations. Incremental policy may optimise the trap rather than escape it. Crossing basin boundaries requires large shocks.</p>
+        <p>Under-development is a stable mathematical state maintained by internal feedback loops, requiring high-energy intervention to escape.</p>
     </div>
     <div class="insight-card">
         <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="3" x2="12" y2="21"/><path d="M4 8l4-4 8 8"/><path d="M20 16l-4 4-8-8"/></svg></span>
         <h4>Symmetry breaks where capacity differs</h4>
-        <p>The source of divergence is at the interface between uniform knowledge and heterogeneous absorptive capacity. Policy should homogenise the conditions of reception.</p>
+        <p>Global inequality is the inevitable outcome of a uniform technological field interacting with varying local institutional densities.</p>
     </div>
 </section>
 
+<section class="newsletter-cta">
+    <h3>Explore the Mathematical Foundation of Modern Markets</h3>
+    <p>Sign up for our quarterly journal, delivering deep-dives into the physics of economic development.</p>
+    <a href="https://hheuristics.substack.com" target="_blank" rel="noopener" class="cta-button">Subscribe <span class="arrow">&rarr;</span></a>
+</section>
+
 <section class="cta-row">
-    <p>Next: The unified framework — Impact = Optimization × Diffusion × Use.</p>
-    <a href="framework.html" class="cta-button">Explore Framework <span class="arrow">→</span></a>
+    <p>Next: The unified framework — Impact = Optimization &times; Diffusion &times; Use.</p>
+    <a href="framework.html" class="cta-button">Explore Framework <span class="arrow">&rarr;</span></a>
 </section>
 
 </main>

@@ -673,3 +673,445 @@ function drawAttractorLandscape(containerId) {
         .attr('font-weight', '500')
         .text('Basin Boundary');
 }
+
+// --- Economic Entropy Heatmap (for Home page) ---
+function drawEconomicEntropy(containerId) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+
+    var width = container.clientWidth || 800;
+    if (width < 100) width = 800;
+    var height = 380;
+    var margin = { top: 10, right: 30, bottom: 40, left: 50 };
+    var innerW = width - margin.left - margin.right;
+    var innerH = height - margin.top - margin.bottom;
+
+    var svg = d3.select(container)
+        .append('svg')
+        .attr('viewBox', '0 0 ' + width + ' ' + height)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('role', 'img')
+        .attr('aria-label', 'Economic entropy heatmap: transaction density across developmental equilibrium projections');
+
+    var g = svg.append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    // Generate heatmap data — transaction density
+    var gridX = 40, gridY = 25;
+    var data = [];
+    for (var i = 0; i < gridX; i++) {
+        for (var j = 0; j < gridY; j++) {
+            var nx = i / gridX;
+            var ny = j / gridY;
+            // Create clusters of high density
+            var d1 = Math.exp(-((nx - 0.25) * (nx - 0.25) + (ny - 0.3) * (ny - 0.3)) / 0.03);
+            var d2 = Math.exp(-((nx - 0.6) * (nx - 0.6) + (ny - 0.55) * (ny - 0.55)) / 0.02);
+            var d3 = Math.exp(-((nx - 0.8) * (nx - 0.8) + (ny - 0.7) * (ny - 0.7)) / 0.04);
+            var d4 = Math.exp(-((nx - 0.4) * (nx - 0.4) + (ny - 0.75) * (ny - 0.75)) / 0.025);
+            var val = d1 * 0.7 + d2 * 0.9 + d3 * 0.5 + d4 * 0.6 + 0.05 * Math.random();
+            data.push({ x: i, y: j, v: Math.min(val, 1) });
+        }
+    }
+
+    var cellW = innerW / gridX;
+    var cellH = innerH / gridY;
+
+    // Color scale: dark navy → steel → gold
+    var colorScale = d3.scaleLinear()
+        .domain([0, 0.3, 0.6, 0.9, 1])
+        .range(['#0a0e14', '#162030', '#3a6080', '#7eb8da', '#c9a84c']);
+
+    g.selectAll('rect')
+        .data(data)
+        .enter().append('rect')
+        .attr('x', function(d) { return d.x * cellW; })
+        .attr('y', function(d) { return d.y * cellH; })
+        .attr('width', cellW + 0.5)
+        .attr('height', cellH + 0.5)
+        .attr('fill', function(d) { return colorScale(d.v); })
+        .attr('opacity', 0.85);
+
+    // Axis labels
+    g.append('text')
+        .attr('x', innerW / 2).attr('y', innerH + 30)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#8892a0')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px')
+        .text('Developmental Equilibrium Axis');
+
+    g.append('text')
+        .attr('x', -innerH / 2).attr('y', -35)
+        .attr('text-anchor', 'middle').attr('transform', 'rotate(-90)')
+        .attr('fill', '#8892a0')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px')
+        .text('Transaction Density');
+
+    // Color legend
+    var legendG = svg.append('g')
+        .attr('transform', 'translate(' + (margin.left + innerW - 120) + ',' + (margin.top - 5) + ')');
+
+    var legendData = [
+        { label: 'High', val: 1 },
+        { label: 'Med', val: 0.6 },
+        { label: 'Low', val: 0.2 }
+    ];
+
+    legendData.forEach(function(d, i) {
+        legendG.append('rect')
+            .attr('x', i * 40).attr('y', 0)
+            .attr('width', 12).attr('height', 12)
+            .attr('fill', colorScale(d.val))
+            .attr('rx', 2);
+
+        legendG.append('text')
+            .attr('x', i * 40 + 16).attr('y', 10)
+            .attr('fill', '#8892a0')
+            .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
+            .text(d.label);
+    });
+}
+
+// --- Cross-Sector Diffusion S-Curves (updated with sector tabs) ---
+var currentSector = 'ict';
+
+function switchSectorTab(sector, el) {
+    currentSector = sector;
+    document.querySelectorAll('.sector-tab').forEach(function(t) { t.classList.remove('active'); });
+    if (el) el.classList.add('active');
+    // Redraw
+    var container = document.getElementById('viz-diffusion-curves');
+    if (container) {
+        container.innerHTML = '';
+        drawDiffusionSCurves('viz-diffusion-curves', sector);
+    }
+}
+
+function drawDiffusionSCurves(containerId, sector) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    sector = sector || 'ict';
+
+    var width = container.clientWidth || 800;
+    if (width < 100) width = 800;
+    var height = 400;
+    var margin = { top: 30, right: 80, bottom: 50, left: 60 };
+    var innerW = width - margin.left - margin.right;
+    var innerH = height - margin.top - margin.bottom;
+
+    var svg = d3.select(container)
+        .append('svg')
+        .attr('viewBox', '0 0 ' + width + ' ' + height)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('role', 'img')
+        .attr('aria-label', 'Technology diffusion S-curves for ' + sector + ' sector');
+
+    var g = svg.append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    var x = d3.scaleLinear().domain([0, 100]).range([0, innerW]);
+    var y = d3.scaleLinear().domain([0, 1]).range([innerH, 0]);
+
+    // Grid
+    g.append('g').selectAll('line').data(x.ticks(10)).enter().append('line')
+        .attr('x1', function(d) { return x(d); }).attr('x2', function(d) { return x(d); })
+        .attr('y1', 0).attr('y2', innerH)
+        .attr('stroke', 'rgba(126,184,218,0.05)').attr('stroke-width', 0.5);
+
+    // Axes
+    g.append('g').attr('transform', 'translate(0,' + innerH + ')')
+        .call(d3.axisBottom(x).ticks(10).tickFormat(function(d) { return d + '%'; }))
+        .attr('color', '#8892a0')
+        .selectAll('text').attr('fill', '#8892a0').attr('font-family', 'IBM Plex Sans').attr('font-size', '10px');
+
+    g.append('g')
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format('.0%')))
+        .attr('color', '#8892a0')
+        .selectAll('text').attr('fill', '#8892a0').attr('font-family', 'IBM Plex Sans').attr('font-size', '10px');
+
+    // Sector-specific curves
+    var curves;
+    if (sector === 'ict') {
+        curves = [
+            { label: 'Mobile Phones', D: 0.7, offset: 42, color: '#c9a84c' },
+            { label: 'Internet', D: 0.55, offset: 48, color: '#7eb8da' },
+            { label: 'Smartphones', D: 0.4, offset: 55, color: '#a0d0ec' },
+        ];
+    } else if (sector === 'energy') {
+        curves = [
+            { label: 'Solar PV', D: 0.65, offset: 40, color: '#c9a84c' },
+            { label: 'Wind', D: 0.5, offset: 50, color: '#7eb8da' },
+            { label: 'EV Adoption', D: 0.35, offset: 58, color: '#a0d0ec' },
+        ];
+    } else {
+        curves = [
+            { label: 'Mobile Money', D: 0.6, offset: 44, color: '#c9a84c' },
+            { label: 'Digital Banking', D: 0.5, offset: 52, color: '#7eb8da' },
+            { label: 'Insurance', D: 0.3, offset: 60, color: '#a0d0ec' },
+        ];
+    }
+
+    function sigmoid(t, D, offset) {
+        return 1 / (1 + Math.exp(-D * (t - offset) / 10));
+    }
+
+    var line = d3.line()
+        .x(function(d) { return x(d.t); })
+        .y(function(d) { return y(d.v); })
+        .curve(d3.curveCardinal);
+
+    curves.forEach(function(curve) {
+        var points = [];
+        for (var t = 0; t <= 100; t += 0.5) {
+            points.push({ t: t, v: sigmoid(t, curve.D, curve.offset) });
+        }
+
+        g.append('path')
+            .datum(points)
+            .attr('d', line)
+            .attr('fill', 'none')
+            .attr('stroke', curve.color)
+            .attr('stroke-width', 2.5)
+            .attr('stroke-linecap', 'round');
+
+        var last = points[points.length - 1];
+        g.append('text')
+            .attr('x', x(last.t) + 6).attr('y', y(last.v) + 4)
+            .attr('fill', curve.color)
+            .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px').attr('font-weight', '600')
+            .text(curve.label);
+    });
+
+    // Axis labels
+    g.append('text').attr('x', innerW / 2).attr('y', innerH + 38)
+        .attr('text-anchor', 'middle').attr('fill', '#8892a0')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px')
+        .text('Cumulative Adoption →');
+
+    g.append('text').attr('x', -innerH / 2).attr('y', -45)
+        .attr('text-anchor', 'middle').attr('transform', 'rotate(-90)')
+        .attr('fill', '#8892a0')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px')
+        .text('Adoption Rate');
+}
+
+// --- Scaling Exponents Comparison (for Structure page) ---
+function drawScalingExponents(containerId) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+
+    var width = container.clientWidth || 800;
+    if (width < 100) width = 800;
+    var height = 370;
+    var margin = { top: 30, right: 50, bottom: 50, left: 60 };
+    var innerW = width - margin.left - margin.right;
+    var innerH = height - margin.top - margin.bottom;
+
+    var svg = d3.select(container)
+        .append('svg')
+        .attr('viewBox', '0 0 ' + width + ' ' + height)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('role', 'img')
+        .attr('aria-label', 'Scaling exponent comparison: advanced vs emerging economies across national, regional, and household levels');
+
+    var g = svg.append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    // Log-log scale data
+    var levels = ['Household', 'Regional', 'National'];
+    var advanced = [0.92, 0.87, 0.83];
+    var emerging = [0.78, 0.65, 0.52];
+
+    var x = d3.scaleBand().domain(levels).range([0, innerW]).padding(0.3);
+    var y = d3.scaleLinear().domain([0, 1]).range([innerH, 0]);
+
+    // Grid
+    g.append('g').selectAll('line').data(y.ticks(5)).enter().append('line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', function(d) { return y(d); }).attr('y2', function(d) { return y(d); })
+        .attr('stroke', 'rgba(126,184,218,0.06)').attr('stroke-width', 0.5);
+
+    g.append('g')
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format('.0%')))
+        .attr('color', '#8892a0')
+        .selectAll('text').attr('fill', '#8892a0').attr('font-family', 'IBM Plex Sans').attr('font-size', '10px');
+
+    // X axis
+    g.append('g').attr('transform', 'translate(0,' + innerH + ')')
+        .call(d3.axisBottom(x))
+        .attr('color', '#8892a0')
+        .selectAll('text').attr('fill', '#8892a0').attr('font-family', 'IBM Plex Sans').attr('font-size', '11px');
+
+    // Grouped bars
+    var barWidth = x.bandwidth() / 2;
+
+    // Advanced economies
+    g.selectAll('.bar-adv')
+        .data(advanced)
+        .enter().append('rect')
+        .attr('class', 'bar-adv')
+        .attr('x', function(d, i) { return x(levels[i]); })
+        .attr('y', function(d) { return y(d); })
+        .attr('width', barWidth - 4)
+        .attr('height', function(d) { return innerH - y(d); })
+        .attr('fill', '#c9a84c')
+        .attr('opacity', 0.85)
+        .attr('rx', 2);
+
+    // Emerging economies
+    g.selectAll('.bar-emg')
+        .data(emerging)
+        .enter().append('rect')
+        .attr('class', 'bar-emg')
+        .attr('x', function(d, i) { return x(levels[i]) + barWidth; })
+        .attr('y', function(d) { return y(d); })
+        .attr('width', barWidth - 4)
+        .attr('height', function(d) { return innerH - y(d); })
+        .attr('fill', '#7eb8da')
+        .attr('opacity', 0.7)
+        .attr('rx', 2);
+
+    // Value labels
+    g.selectAll('.val-adv')
+        .data(advanced)
+        .enter().append('text')
+        .attr('x', function(d, i) { return x(levels[i]) + barWidth / 2 - 2; })
+        .attr('y', function(d) { return y(d) - 8; })
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#c9a84c')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px').attr('font-weight', '600')
+        .text(function(d) { return d.toFixed(2); });
+
+    g.selectAll('.val-emg')
+        .data(emerging)
+        .enter().append('text')
+        .attr('x', function(d, i) { return x(levels[i]) + barWidth * 1.5 - 2; })
+        .attr('y', function(d) { return y(d) - 8; })
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#7eb8da')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px').attr('font-weight', '600')
+        .text(function(d) { return d.toFixed(2); });
+
+    // Legend
+    var leg = svg.append('g').attr('transform', 'translate(' + (margin.left + innerW - 200) + ',' + (margin.top - 5) + ')');
+    leg.append('rect').attr('width', 12).attr('height', 12).attr('fill', '#c9a84c').attr('rx', 2);
+    leg.append('text').attr('x', 18).attr('y', 10).attr('fill', '#b0b8c4').attr('font-family', 'IBM Plex Sans').attr('font-size', '10px').text('Advanced');
+    leg.append('rect').attr('x', 100).attr('width', 12).attr('height', 12).attr('fill', '#7eb8da').attr('rx', 2);
+    leg.append('text').attr('x', 118).attr('y', 10).attr('fill', '#b0b8c4').attr('font-family', 'IBM Plex Sans').attr('font-size', '10px').text('Emerging');
+
+    g.append('text').attr('x', innerW / 2).attr('y', innerH + 36)
+        .attr('text-anchor', 'middle').attr('fill', '#8892a0')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '10px')
+        .text('Scale of Observation');
+}
+
+// --- GPT Historical Trajectory (for Framework page) ---
+function drawGPTTrajectory(containerId) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+
+    var width = container.clientWidth || 800;
+    if (width < 100) width = 800;
+    var height = 200;
+    var margin = { top: 30, right: 40, bottom: 30, left: 40 };
+
+    var svg = d3.select(container)
+        .append('svg')
+        .attr('viewBox', '0 0 ' + width + ' ' + height)
+        .attr('preserveAspectRatio', 'xMidYMid meet')
+        .attr('role', 'img')
+        .attr('aria-label', 'GPT Historical Trajectory: Fire, Agriculture, Writing, Mechanical Power, Computing, AI on logarithmic complexity scale');
+
+    var g = svg.append('g')
+        .attr('transform', 'translate(' + margin.left + ',0)');
+
+    var innerW = width - margin.left - margin.right;
+
+    var milestones = [
+        { name: 'Fire', era: '~400k BCE', pos: 0.03, v: 0.15 },
+        { name: 'Agriculture', era: '~10k BCE', pos: 0.12, v: 0.3 },
+        { name: 'Writing', era: '~3k BCE', pos: 0.22, v: 0.42 },
+        { name: 'Mechanical Power', era: '1760', pos: 0.45, v: 0.55 },
+        { name: 'Computing', era: '1940', pos: 0.68, v: 0.72 },
+        { name: 'AI', era: '2020', pos: 0.9, v: 0.95 },
+    ];
+
+    // Baseline
+    var baseY = height - 50;
+    g.append('line')
+        .attr('x1', 0).attr('x2', innerW)
+        .attr('y1', baseY).attr('y2', baseY)
+        .attr('stroke', 'rgba(126,184,218,0.2)')
+        .attr('stroke-width', 1);
+
+    // Exponential curve
+    var curvePoints = [];
+    for (var t = 0; t <= 1; t += 0.01) {
+        curvePoints.push({ x: t * innerW, y: baseY - Math.pow(t, 3) * 140 });
+    }
+
+    var curve = d3.line()
+        .x(function(d) { return d.x; })
+        .y(function(d) { return d.y; })
+        .curve(d3.curveMonotoneX);
+
+    g.append('path')
+        .datum(curvePoints)
+        .attr('d', curve)
+        .attr('fill', 'none')
+        .attr('stroke', 'rgba(201,168,76,0.3)')
+        .attr('stroke-width', 2);
+
+    // Nodes
+    milestones.forEach(function(m) {
+        var cx = m.pos * innerW;
+        var cy = baseY - Math.pow(m.pos, 3) * 140;
+
+        // Pulse ring
+        g.append('circle')
+            .attr('cx', cx).attr('cy', cy).attr('r', 8)
+            .attr('fill', 'none')
+            .attr('stroke', '#c9a84c')
+            .attr('stroke-width', 1)
+            .attr('opacity', 0.3);
+
+        // Dot
+        g.append('circle')
+            .attr('cx', cx).attr('cy', cy).attr('r', 4)
+            .attr('fill', '#c9a84c');
+
+        // Vertical line to baseline
+        g.append('line')
+            .attr('x1', cx).attr('x2', cx)
+            .attr('y1', cy + 6).attr('y2', baseY)
+            .attr('stroke', 'rgba(201,168,76,0.15)')
+            .attr('stroke-width', 1)
+            .attr('stroke-dasharray', '2,4');
+
+        // Name label
+        g.append('text')
+            .attr('x', cx).attr('y', cy - 14)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#e8ecf1')
+            .attr('font-family', 'Space Grotesk').attr('font-size', '11px').attr('font-weight', '600')
+            .text(m.name);
+
+        // Era label
+        g.append('text')
+            .attr('x', cx).attr('y', baseY + 16)
+            .attr('text-anchor', 'middle')
+            .attr('fill', '#8892a0')
+            .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
+            .text(m.era);
+    });
+
+    // Scale labels
+    g.append('text').attr('x', 0).attr('y', baseY + 34)
+        .attr('text-anchor', 'start').attr('fill', '#8892a0')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
+        .text('-1,000,000 Years');
+
+    g.append('text').attr('x', innerW).attr('y', baseY + 34)
+        .attr('text-anchor', 'end').attr('fill', '#8892a0')
+        .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
+        .text('Present Day');
+}

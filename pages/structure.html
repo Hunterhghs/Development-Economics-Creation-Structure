@@ -30,51 +30,66 @@
 
 <main id="main-content">
 
-<!-- ===== Page Hero ===== -->
 <section class="page-hero">
     <div class="page-hero-inner">
+        <div class="volume-label">Volume III &bull; Structural Topology</div>
         <h1>Structure: Fractals, Networks &amp; the Architecture of Spread</h1>
-        <p class="subtitle">Why Growth Repeats Across Scales and Connectivity Is Both Engine and Fault Line</p>
+        <p class="subtitle">Why growth repeats across scales and connectivity is both engine and fault line</p>
     </div>
 </section>
 
-<!-- ===== Fractals Section ===== -->
 <section class="prose-section">
     <h2>Fractals: Self-Similarity Across Scales</h2>
     <div class="prose-columns">
         <div>
-            <p>A fractal is a pattern that looks similar no matter how far you zoom in or out — a coastline, a tree's branching structure, a lung's bronchi. The defining feature isn't the shape itself but the <span class="highlight">scaling exponent</span>: a single number that describes how a property changes as you change scale.</p>
-            <p>Development economics has its own version of this. Technology diffusion curves — the S-shaped adoption pattern of mobile phones, solar panels, or mobile money — tend to <span class="highlight">repeat at multiple levels of resolution</span>: national, regional, and household levels all following the same logistic shape, just compressed in time.</p>
+            <p>A fractal is a pattern that looks similar no matter how far you zoom in or out&mdash;a coastline, a tree's branching structure, a lung's bronchi. The defining feature isn't the shape itself but the <span class="highlight">scaling exponent</span>: a single number that describes how a property changes as you change scale.</p>
+            <p>Development economics has its own version of this. Technology diffusion curves&mdash;the S-shaped adoption pattern of mobile phones, solar panels, or mobile money&mdash;tend to <span class="highlight">repeat at multiple levels of resolution</span>: national, regional, and household levels all following the same logistic shape, just compressed in time.</p>
+            <div class="equation-math">N(&lambda;L) = &lambda;<sup>-D</sup> N(L)</div>
+            <div class="equation-ref">Scaling law: The fractal dimension D governs how properties change with scale</div>
         </div>
         <div>
-            <p>This is the core of what I've called the <span class="highlight">generational price cascade</span> — each successive cohort of adopters faces a lower price-performance threshold than the last, and that threshold-lowering process appears to be self-similar across geographies.</p>
-            <p>A useful empirical question, and one complexity science gives us tools to actually test, is whether the scaling exponent itself differs systematically between <span class="highlight">advanced and emerging economies</span>. If it does, the diffusion gap isn't just a timing lag — it's a structural difference in how absorption capacity scales with population, infrastructure density, or institutional quality.</p>
+            <p>This is the core of what I've called the <span class="highlight">generational price cascade</span>&mdash;each successive cohort of adopters faces a lower price-performance threshold than the last, and that threshold-lowering process appears to be self-similar across geographies.</p>
+            <p>A useful empirical question, and one complexity science gives us tools to actually test, is whether the scaling exponent itself differs systematically between <span class="highlight">advanced and emerging economies</span>. If it does, the diffusion gap isn't just a timing lag&mdash;it's a structural difference in how absorption capacity scales with population, infrastructure density, or institutional quality.</p>
         </div>
     </div>
 </section>
 
-<!-- ===== Viz: Network Topology ===== -->
 <section class="viz-container">
     <div class="viz-frame">
         <div class="viz-frame-header">
-            <span class="viz-frame-title">Network Topology — Diffusion vs Contagion Dynamics</span>
-            <span class="viz-frame-badge">Interactive</span>
+            <span class="figure-label">Fig 2.1 &mdash; Cross-Scale Analysis</span>
         </div>
-        <div class="viz-frame-body" id="viz-network-topology"></div>
+        <div class="viz-frame-body" id="viz-scaling"></div>
+        <div style="padding: var(--space-sm) var(--space-lg);">
+            <p class="figure-caption">Scaling Exponent Comparison &mdash; Advanced vs Emerging Economies</p>
+        </div>
     </div>
 </section>
 
-<!-- ===== Networks Section ===== -->
 <section class="prose-section">
     <h2>Networks: Connectivity as Engine and Fault Line</h2>
     <div class="prose-columns">
         <div>
-            <p>Network topology — how nodes (people, firms, banks, grid stations) connect to each other — shapes system behaviour through two properties: <span class="highlight">average degree</span> (how many connections each node typically has) and <span class="highlight">centrality</span> (whether a small number of hub nodes carry disproportionate traffic).</p>
-            <p>High connectivity is, on net, good for development. It's the mechanism behind technology diffusion and convergence: ideas, capital, and standards move faster through dense networks. <span class="highlight">Digital public infrastructure</span> — payment rails, identity systems, interoperable data layers — is essentially an exercise in deliberately increasing connectivity to accelerate diffusion.</p>
+            <p>Network topology&mdash;how nodes (people, firms, banks, grid stations) connect to each other&mdash;shapes system behaviour through two properties: <span class="highlight">average degree</span> (how many connections each node typically has) and <span class="highlight">centrality</span> (whether a small number of hub nodes carry disproportionate traffic).</p>
+            <p>High connectivity is, on net, good for development. It's the mechanism behind technology diffusion and convergence: ideas, capital, and standards move faster through dense networks. <span class="highlight">Digital public infrastructure</span>&mdash;payment rails, identity systems, interoperable data layers&mdash;is essentially an exercise in deliberately increasing connectivity to accelerate diffusion.</p>
         </div>
         <div>
             <p>But the same structure that accelerates diffusion also accelerates <span class="highlight">contagion</span>. The same architecture that lets a clean cooking technology spread rapidly through a supply chain also lets a single supplier failure cascade through that chain.</p>
-            <p>Financial network models built to estimate interbank contagion probability are formally identical to models used to estimate how quickly a technology standard propagates through an industry — the difference is simply what's flowing across the edges: money, information, or failure. The policy question isn't "how do we slow connectivity" but <span class="highlight">"how do we change the composition of what flows through it."</span></p>
+            <div class="quote-block">
+                <p>"The policy question isn't how to slow connectivity&mdash;it's how to change the composition of what flows through it."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="viz-container">
+    <div class="viz-frame">
+        <div class="viz-frame-header">
+            <span class="figure-label">Fig 2.2 &mdash; Network Simulation</span>
+        </div>
+        <div class="viz-frame-body" id="viz-network-topology"></div>
+        <div style="padding: var(--space-sm) var(--space-lg);">
+            <p class="figure-caption">Network Topology &mdash; Diffusion vs Contagion Dynamics. Hub nodes in gold, peripheral in blue. Gold dashed lines show diffusion pulses.</p>
         </div>
     </div>
 </section>
@@ -83,23 +98,23 @@
     <div class="insight-card">
         <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="6"/><line x1="15" y1="15" x2="21" y2="21"/><rect x="7" y="7" width="6" height="6" rx="0.5" opacity="0.3"/></svg></span>
         <h4>The shape holds across scales, even when the speed doesn't</h4>
-        <p>Diffusion curves at national, regional, and household levels share the same logistic form. The scaling exponent — not the absolute speed — is the diagnostic variable.</p>
+        <p>Diffusion curves at national, regional, and household levels share the same logistic form. The scaling exponent is the diagnostic variable.</p>
     </div>
     <div class="insight-card">
         <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polygon points="12,2 22,20 2,20"/><line x1="12" y1="9" x2="12" y2="14"/><circle cx="12" cy="17.5" r="0.8" fill="currentColor" stroke="none"/></svg></span>
         <h4>High connectivity accelerates both diffusion and contagion</h4>
-        <p>The network architecture that spreads clean technology also spreads supplier failures. The dual nature of connectivity is structural, not accidental.</p>
+        <p>The network architecture that spreads clean technology also spreads supplier failures. The dual nature of connectivity is structural.</p>
     </div>
     <div class="insight-card">
         <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4c3 2 3 14 6 16s3-14 6-16"/><path d="M18 4c-3 2-3 14-6 16S9 6 6 4"/></svg></span>
         <h4>Change what flows through networks, not the networks themselves</h4>
-        <p>Clean technologies that avoid environmental substitution problems plug into existing network structures without simply relocating the externality.</p>
+        <p>Clean technologies that avoid environmental substitution problems plug into existing network structures without relocating the externality.</p>
     </div>
 </section>
 
 <section class="cta-row">
-    <p>Next: Why economies don't drift — they tip, and the mathematics of phase transitions explains when.</p>
-    <a href="transition.html" class="cta-button">Explore Transition <span class="arrow">→</span></a>
+    <p>Next: Why economies don't drift&mdash;they tip, and phase transitions explain when.</p>
+    <a href="transition.html" class="cta-button">Explore Transition <span class="arrow">&rarr;</span></a>
 </section>
 
 </main>
@@ -134,6 +149,9 @@
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="../assets/js/visualizations.js"></script>
-<script>drawNetworkTopology('viz-network-topology');</script>
+<script>
+    drawScalingExponents('viz-scaling');
+    drawNetworkTopology('viz-network-topology');
+</script>
 </body>
 </html>

@@ -973,3 +973,388 @@ a:hover {
 .stat-card:nth-child(2) { animation-delay: 0.1s; }
 .stat-card:nth-child(3) { animation-delay: 0.2s; }
 .stat-card:nth-child(4) { animation-delay: 0.3s; }
+
+/* ============================================================
+   Stitch-Matched Design Elements
+   ============================================================ */
+
+/* --- Journal / Monograph Volume Label --- */
+.volume-label {
+    font-family: var(--font-label);
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--steel);
+    margin-bottom: var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.volume-label::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 1px;
+    background: var(--steel);
+    opacity: 0.5;
+}
+
+/* --- KPI Sub-Label Row --- */
+.stat-card-sub {
+    font-family: var(--font-label);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--steel-dark);
+    margin-bottom: var(--space-xs);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-card-value {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+    letter-spacing: 0.02em;
+}
+
+/* --- Equation Display (LaTeX-style) --- */
+.equation-math {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    color: var(--steel-light);
+    text-align: center;
+    padding: var(--space-md) 0;
+    letter-spacing: 0.03em;
+    border-left: 2px solid var(--steel-dark);
+    margin: var(--space-lg) 0;
+    padding-left: var(--space-lg);
+}
+
+.equation-ref {
+    font-family: var(--font-label);
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    text-align: right;
+    font-style: italic;
+}
+
+/* --- Figure Labels --- */
+.figure-label {
+    font-family: var(--font-label);
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--steel-dark);
+    margin-bottom: var(--space-sm);
+}
+
+.figure-caption {
+    font-family: var(--font-label);
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+    font-style: italic;
+}
+
+/* --- Quote Block --- */
+.quote-block {
+    border-left: 3px solid var(--gold-primary);
+    padding: var(--space-md) var(--space-lg);
+    margin: var(--space-2xl) 0;
+    background: var(--bg-equation);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.quote-block p {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-style: italic;
+    color: var(--text-primary);
+    margin-bottom: 0;
+    line-height: 1.7;
+}
+
+/* --- Cross-Sector Tabs --- */
+.sector-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--hairline);
+}
+
+.sector-tab {
+    font-family: var(--font-label);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    padding: var(--space-sm) var(--space-lg);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.sector-tab:hover,
+.sector-tab.active {
+    color: var(--gold-primary);
+    border-bottom-color: var(--gold-primary);
+}
+
+/* --- Newsletter CTA --- */
+.newsletter-cta {
+    max-width: var(--max-width);
+    margin: 0 auto var(--space-4xl);
+    padding: var(--space-3xl) var(--space-xl);
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--hairline-gold);
+    border-radius: var(--border-radius);
+}
+
+.newsletter-cta h3 {
+    color: var(--gold-primary);
+    margin-bottom: var(--space-md);
+}
+
+.newsletter-cta p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+    font-size: 0.9375rem;
+}
+
+.newsletter-cta .cta-button {
+    background: transparent;
+    color: var(--gold-primary);
+    border: 1px solid var(--gold-primary);
+}
+
+.newsletter-cta .cta-button:hover {
+    background: var(--gold-primary);
+    color: var(--bg-primary);
+}
+
+/* --- Interactive Slider Controls --- */
+.slider-group {
+    margin-bottom: var(--space-lg);
+}
+
+.slider-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+    font-family: var(--font-label);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.slider-label .name {
+    color: var(--text-secondary);
+}
+
+.slider-label .value {
+    color: var(--gold-primary);
+    font-family: var(--font-mono);
+}
+
+.slider-track {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-card);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.slider-fill {
+    height: 100%;
+    background: var(--gold-primary);
+    border-radius: 3px;
+    transition: width var(--transition-fast);
+}
+
+.slider-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px var(--gold-glow-strong);
+}
+
+/* --- Status Indicators --- */
+.status-indicators {
+    display: flex;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: var(--space-lg) 0;
+}
+
+.status-indicator {
+    text-align: center;
+}
+
+.status-indicator .pct {
+    font-family: var(--font-headline);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold-primary);
+}
+
+.status-indicator .label {
+    font-family: var(--font-label);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+/* --- GPT Trajectory Timeline --- */
+.gpt-trajectory {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: var(--space-xl) 0;
+    position: relative;
+    min-height: 160px;
+}
+
+.gpt-trajectory::before {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--hairline), var(--hairline-gold), var(--hairline));
+}
+
+.gpt-node {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.gpt-node .dot {
+    width: 10px;
+    height: 10px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    margin: 0 auto var(--space-sm);
+    position: relative;
+    z-index: 2;
+}
+
+.gpt-node .era {
+    font-family: var(--font-headline);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.gpt-node .date {
+    font-family: var(--font-label);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.gpt-node .bar {
+    width: 2px;
+    background: var(--gold-primary);
+    margin: var(--space-sm) auto 0;
+    opacity: 0.3;
+}
+
+/* --- Section Eyebrow --- */
+.section-eyebrow {
+    font-family: var(--font-label);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--steel-dark);
+    margin-bottom: var(--space-xs);
+}
+
+/* --- Insight CTA links --- */
+.insight-card .insight-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-label);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gold-primary);
+    margin-top: var(--space-md);
+    transition: gap var(--transition-fast);
+}
+
+.insight-card .insight-cta:hover {
+    gap: 8px;
+}
+
+/* --- Icon-Labeled Equation Mappings --- */
+.eq-mapping-icon {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.eq-mapping-icon .mapping-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    color: var(--gold-primary);
+}
+
+.eq-mapping-icon .mapping-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Mobile adjustments for new elements --- */
+@media (max-width: 768px) {
+    .gpt-trajectory {
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+        justify-content: center;
+    }
+
+    .gpt-trajectory::before {
+        display: none;
+    }
+
+    .status-indicators {
+        gap: var(--space-md);
+    }
+
+    .equation-math {
+        font-size: 1rem;
+        padding-left: var(--space-md);
+    }
+}
