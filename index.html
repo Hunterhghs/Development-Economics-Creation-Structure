@@ -92,6 +92,19 @@
 <section class="viz-container">
     <div class="viz-frame">
         <div class="viz-frame-header">
+            <span class="viz-frame-title">Global Diffusion Topology</span>
+            <span class="viz-frame-badge">Fig 3.1</span>
+        </div>
+        <div class="viz-frame-body" id="viz-world-map"></div>
+        <div style="padding: var(--space-sm) var(--space-lg);">
+            <p class="figure-caption">World Development Map &mdash; Economic complexity and diffusion capacity by country. Gold hubs indicate major technology diffusion centers.</p>
+        </div>
+    </div>
+</section>
+
+<section class="viz-container">
+    <div class="viz-frame">
+        <div class="viz-frame-header">
             <span class="viz-frame-title">Visualizing Economic Entropy</span>
             <span class="viz-frame-badge">Fig 4.2</span>
         </div>
@@ -159,7 +172,9 @@
 </footer>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3"></script>
 <script src="assets/js/visualizations.js"></script>
+<script>drawWorldDevelopmentMap('viz-world-map');</script>
 <script>drawEconomicEntropy('viz-entropy');</script>
 </body>
 </html>
