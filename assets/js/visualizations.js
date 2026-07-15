@@ -1121,161 +1121,161 @@ function drawWorldDevelopmentMap(containerId) {
     var container = document.getElementById(containerId);
     if (!container) return;
 
-    var width = container.clientWidth || 900;
+    var width = container.clientWidth || container.parentElement.clientWidth || 900;
     if (width < 100) width = 900;
     var height = 480;
 
-    var svg = d3.select(container)
-        .append('svg')
-        .attr('viewBox', '0 0 ' + width + ' ' + height)
-        .attr('preserveAspectRatio', 'xMidYMid meet')
-        .attr('role', 'img')
-        .attr('aria-label', 'World development map: economic complexity and diffusion capacity by country');
+    // Show loading state
+    container.innerHTML = '<div class="viz-loading"><span style="display:inline-block;width:8px;height:8px;background:#c9a84c;border-radius:50%;margin-right:8px;animation:pulse 1s infinite;"></span>Loading world map data&hellip;</div>';
 
-    // Try loading world map data
-    var worldUrl = 'https://unpkg.com/world-atlas@2/land-110m.json';
+    // Wait for topojson to be available
+    function initMap() {
+        if (typeof topojson === 'undefined') {
+            setTimeout(initMap, 100);
+            return;
+        }
 
-    d3.json(worldUrl).then(function(world) {
-        var land = topojson.feature(world, world.objects.land);
-        var countries = topojson.feature(world, world.objects.countries);
+        var worldUrl = 'https://unpkg.com/world-atlas@2/land-110m.json';
 
-        // Country-level economic data (Economic Complexity Index approximations)
-        var econData = {
-            '840': 1.55, '826': 1.43, '276': 1.92, '392': 1.85, '124': 1.35,
-            '250': 1.15, '380': 1.08, '410': 1.98, '036': 0.85, '156': 1.39,
-            '356': 0.52, '484': 0.38, '076': 0.32, '170': 0.18, '218': -0.05,
-            '404': 0.12, '566': -0.22, '710': 0.08, '716': -0.35, '144': 0.28,
-            '360': 0.72, '458': 0.95, '608': 0.65, '702': 1.12, '764': 0.88,
-            '643': 0.45, '804': 0.15, '051': 0.32, '112': -0.45, '231': -0.18,
-            '288': -0.08, '324': -0.32, '384': -0.15, '430': -0.28, '450': -0.52,
-            '454': -0.42, '466': -0.12, '478': -0.35, '508': -0.55, '516': -0.09,
-            '562': -0.48, '646': -0.25, '686': -0.38, '694': -0.42, '706': -0.35,
-            '728': -0.55, '748': -0.28, '768': -0.15, '788': 0.35, '800': -0.22,
-            '834': -0.32, '854': -0.45, '894': -0.18, '232': -0.62
-        };
+        d3.json(worldUrl).then(function(world) {
+            // Clear loading
+            container.innerHTML = '';
 
-        var projection = d3.geoNaturalEarth1()
-            .fitSize([width, height], land);
+            var svg = d3.select(container)
+                .append('svg')
+                .attr('viewBox', '0 0 ' + width + ' ' + height)
+                .attr('preserveAspectRatio', 'xMidYMid meet')
+                .attr('role', 'img')
+                .attr('aria-label', 'World development map: economic complexity and diffusion capacity by country');
 
-        var path = d3.geoPath().projection(projection);
+            var land = topojson.feature(world, world.objects.land);
+            var countries = topojson.feature(world, world.objects.countries);
 
-        // Ocean background
-        svg.append('rect')
-            .attr('width', width).attr('height', height)
-            .attr('fill', '#080c12');
+            var econData = {
+                '840': 1.55, '826': 1.43, '276': 1.92, '392': 1.85, '124': 1.35,
+                '250': 1.15, '380': 1.08, '410': 1.98, '036': 0.85, '156': 1.39,
+                '356': 0.52, '484': 0.38, '076': 0.32, '170': 0.18, '218': -0.05,
+                '404': 0.12, '566': -0.22, '710': 0.08, '716': -0.35, '144': 0.28,
+                '360': 0.72, '458': 0.95, '608': 0.65, '702': 1.12, '764': 0.88,
+                '643': 0.45, '804': 0.15, '051': 0.32, '112': -0.45, '231': -0.18,
+                '288': -0.08, '324': -0.32, '384': -0.15, '430': -0.28, '450': -0.52,
+                '454': -0.42, '466': -0.12, '478': -0.35, '508': -0.55, '516': -0.09,
+                '562': -0.48, '646': -0.25, '686': -0.38, '694': -0.42, '706': -0.35,
+                '728': -0.55, '748': -0.28, '768': -0.15, '788': 0.35, '800': -0.22,
+                '834': -0.32, '854': -0.45, '894': -0.18, '232': -0.62
+            };
 
-        // Color scale
-        var colorScale = d3.scaleSequential(d3.interpolateRgb('#162030', '#c9a84c'))
-            .domain([-0.7, 2.0]);
+            var projection = d3.geoNaturalEarth1()
+                .fitSize([width, height], land);
 
-        // Draw countries
-        svg.append('g')
-            .selectAll('path')
-            .data(countries.features)
-            .enter().append('path')
-            .attr('d', path)
-            .attr('fill', function(d) {
-                var val = econData[d.id] || -0.1;
-                return colorScale(val);
-            })
-            .attr('stroke', '#0a0e14')
-            .attr('stroke-width', 0.5)
-            .attr('opacity', 0.9);
+            var path = d3.geoPath().projection(projection);
 
-        // Draw land outline
-        svg.append('path')
-            .datum(land)
-            .attr('d', path)
-            .attr('fill', 'none')
-            .attr('stroke', 'rgba(126,184,218,0.15)')
-            .attr('stroke-width', 0.5);
+            // Ocean background
+            svg.append('rect')
+                .attr('width', width).attr('height', height)
+                .attr('fill', '#080c12');
 
-        // Add diffusion hubs as glowing dots
-        var hubs = [
-            { name: 'Silicon Valley', lon: -122, lat: 37, r: 7 },
-            { name: 'London', lon: -0.1, lat: 51.5, r: 6 },
-            { name: 'Shenzhen', lon: 114, lat: 22.5, r: 6.5 },
-            { name: 'Seoul', lon: 127, lat: 37.5, r: 5.5 },
-            { name: 'Bangalore', lon: 77.6, lat: 12.9, r: 4.5 },
-            { name: 'Tel Aviv', lon: 34.8, lat: 32.1, r: 4 },
-            { name: 'Singapore', lon: 103.8, lat: 1.3, r: 5 },
-            { name: 'Sao Paulo', lon: -46.6, lat: -23.5, r: 4 },
-            { name: 'Nairobi', lon: 36.8, lat: -1.3, r: 3.5 },
-        ];
+            var colorScale = d3.scaleSequential(d3.interpolateRgb('#162030', '#c9a84c'))
+                .domain([-0.7, 2.0]);
 
-        var hubG = svg.append('g');
+            svg.append('g')
+                .selectAll('path')
+                .data(countries.features)
+                .enter().append('path')
+                .attr('d', path)
+                .attr('fill', function(d) {
+                    var val = econData[d.id] || -0.1;
+                    return colorScale(val);
+                })
+                .attr('stroke', '#0a0e14')
+                .attr('stroke-width', 0.5)
+                .attr('opacity', 0.9);
 
-        hubs.forEach(function(h) {
-            var pos = projection([h.lon, h.lat]);
-            if (!pos) return;
-
-            // Glow
-            hubG.append('circle')
-                .attr('cx', pos[0]).attr('cy', pos[1])
-                .attr('r', h.r + 6)
+            svg.append('path')
+                .datum(land)
+                .attr('d', path)
                 .attr('fill', 'none')
-                .attr('stroke', '#c9a84c')
-                .attr('stroke-width', 1)
-                .attr('opacity', 0.4);
+                .attr('stroke', 'rgba(126,184,218,0.15)')
+                .attr('stroke-width', 0.5);
 
-            // Core
-            hubG.append('circle')
-                .attr('cx', pos[0]).attr('cy', pos[1])
-                .attr('r', h.r / 2)
-                .attr('fill', '#c9a84c')
-                .attr('opacity', 0.95);
+            var hubs = [
+                { name: 'Silicon Valley', lon: -122, lat: 37, r: 7 },
+                { name: 'London', lon: -0.1, lat: 51.5, r: 6 },
+                { name: 'Shenzhen', lon: 114, lat: 22.5, r: 6.5 },
+                { name: 'Seoul', lon: 127, lat: 37.5, r: 5.5 },
+                { name: 'Bangalore', lon: 77.6, lat: 12.9, r: 4.5 },
+                { name: 'Tel Aviv', lon: 34.8, lat: 32.1, r: 4 },
+                { name: 'Singapore', lon: 103.8, lat: 1.3, r: 5 },
+                { name: 'Sao Paulo', lon: -46.6, lat: -23.5, r: 4 },
+                { name: 'Nairobi', lon: 36.8, lat: -1.3, r: 3.5 },
+            ];
 
-            // Label
-            hubG.append('text')
-                .attr('x', pos[0] + h.r + 3).attr('y', pos[1] + 3)
-                .attr('fill', '#c9a84c')
-                .attr('font-family', 'IBM Plex Sans').attr('font-size', '8px').attr('font-weight', '500')
-                .text(h.name);
+            var hubG = svg.append('g');
+
+            hubs.forEach(function(h) {
+                var pos = projection([h.lon, h.lat]);
+                if (!pos) return;
+                hubG.append('circle')
+                    .attr('cx', pos[0]).attr('cy', pos[1])
+                    .attr('r', h.r + 6)
+                    .attr('fill', 'none')
+                    .attr('stroke', '#c9a84c')
+                    .attr('stroke-width', 1)
+                    .attr('opacity', 0.4);
+                hubG.append('circle')
+                    .attr('cx', pos[0]).attr('cy', pos[1])
+                    .attr('r', h.r / 2)
+                    .attr('fill', '#c9a84c')
+                    .attr('opacity', 0.95);
+                hubG.append('text')
+                    .attr('x', pos[0] + h.r + 3).attr('y', pos[1] + 3)
+                    .attr('fill', '#c9a84c')
+                    .attr('font-family', 'IBM Plex Sans').attr('font-size', '8px').attr('font-weight', '500')
+                    .text(h.name);
+            });
+
+            // Legend
+            var legendW = 200, legendH = 12;
+            var legendX = width - legendW - 20;
+            var legendY = height - 40;
+
+            var defs = svg.append('defs');
+            var gradient = defs.append('linearGradient')
+                .attr('id', 'map-legend-grad')
+                .attr('x1', '0%').attr('y1', '0%')
+                .attr('x2', '100%').attr('y2', '0%');
+            gradient.append('stop').attr('offset', '0%').attr('stop-color', '#162030');
+            gradient.append('stop').attr('offset', '50%').attr('stop-color', '#7eb8da');
+            gradient.append('stop').attr('offset', '100%').attr('stop-color', '#c9a84c');
+
+            svg.append('rect')
+                .attr('x', legendX).attr('y', legendY)
+                .attr('width', legendW).attr('height', legendH)
+                .attr('fill', 'url(#map-legend-grad)')
+                .attr('rx', 2);
+
+            svg.append('text')
+                .attr('x', legendX).attr('y', legendY - 6)
+                .attr('fill', '#8892a0')
+                .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
+                .text('Low');
+            svg.append('text')
+                .attr('x', legendX + legendW).attr('y', legendY - 6)
+                .attr('text-anchor', 'end')
+                .attr('fill', '#8892a0')
+                .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
+                .text('High');
+            svg.append('text')
+                .attr('x', legendX + legendW / 2).attr('y', legendY + 26)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#8892a0')
+                .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
+                .text('Economic Complexity & Diffusion Capacity');
+        }).catch(function(err) {
+            container.innerHTML = '<div class="viz-loading">World map data unavailable. Please refresh.</div>';
+            console.error('World map load error:', err);
         });
+    }
 
-        // Legend
-        var legendW = 200, legendH = 12;
-        var legendX = width - legendW - 20;
-        var legendY = height - 40;
-
-        var defs = svg.append('defs');
-        var gradient = defs.append('linearGradient')
-            .attr('id', 'map-legend-grad')
-            .attr('x1', '0%').attr('y1', '0%')
-            .attr('x2', '100%').attr('y2', '0%');
-
-        gradient.append('stop').attr('offset', '0%').attr('stop-color', '#162030');
-        gradient.append('stop').attr('offset', '50%').attr('stop-color', '#7eb8da');
-        gradient.append('stop').attr('offset', '100%').attr('stop-color', '#c9a84c');
-
-        svg.append('rect')
-            .attr('x', legendX).attr('y', legendY)
-            .attr('width', legendW).attr('height', legendH)
-            .attr('fill', 'url(#map-legend-grad)')
-            .attr('rx', 2);
-
-        svg.append('text')
-            .attr('x', legendX).attr('y', legendY - 6)
-            .attr('fill', '#8892a0')
-            .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
-            .text('Low');
-
-        svg.append('text')
-            .attr('x', legendX + legendW).attr('y', legendY - 6)
-            .attr('text-anchor', 'end')
-            .attr('fill', '#8892a0')
-            .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
-            .text('High');
-
-        svg.append('text')
-            .attr('x', legendX + legendW / 2).attr('y', legendY + 26)
-            .attr('text-anchor', 'middle')
-            .attr('fill', '#8892a0')
-            .attr('font-family', 'IBM Plex Sans').attr('font-size', '9px')
-            .text('Economic Complexity & Diffusion Capacity');
-    }).catch(function(err) {
-        // Fallback if map data fails to load
-        container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:400px;color:#8892a0;font-family:IBM Plex Sans,sans-serif;font-size:14px;">World map data loading — please check your connection and refresh.</div>';
-        console.error('World map load error:', err);
-    });
+    initMap();
 }
