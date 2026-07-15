@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transition: Tipping Points, Attractors & Regime Change — Why economies don't drift, they tip, and the mathematics of phase transitions explains when.">
+    <title>Transition — Creation Structure & Development Economics</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="masthead">
+    <div class="masthead-inner">
+        <a href="../index.html" class="masthead-brand">
+            <span class="brand-accent">⬡</span> Creation Structure
+        </a>
+        <nav aria-label="Main navigation">
+            <ul class="masthead-nav">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="diffusion.html">Diffusion</a></li>
+                <li><a href="structure.html">Structure</a></li>
+                <li><a href="transition.html" class="active" aria-current="page">Transition</a></li>
+                <li><a href="framework.html">Framework</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main id="main-content">
+
+<section class="page-hero">
+    <div class="page-hero-inner">
+        <h1>Transition: Tipping Points, Attractors &amp; Regime Change</h1>
+        <p class="subtitle">Why Economies Don't Drift — They Tip, and the Mathematics of Phase Transitions Explains When</p>
+    </div>
+</section>
+
+<section class="stat-row">
+    <div class="stat-card">
+        <div class="stat-card-label">Phase Transition Threshold</div>
+        <div class="stat-card-title">Critical Threshold</div>
+        <div class="stat-card-desc">The parameter value at which a system shifts abruptly from one regime to another. Below it, shocks absorb smoothly; above it, the same shock produces a cascade.</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-label">Stability Measure</div>
+        <div class="stat-card-title">Attractor Basin Width</div>
+        <div class="stat-card-desc">The resilience of the current economic equilibrium. Poverty traps are attractors — they resist small perturbations. Escape requires crossing the basin boundary.</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card-label">Connectivity Threshold</div>
+        <div class="stat-card-title">Percolation p<sub>c</sub></div>
+        <div class="stat-card-desc">The critical density at which a network transitions from isolated clusters to a spanning giant component. One additional node can transform the system.</div>
+    </div>
+</section>
+
+<!-- ===== Phase Transitions ===== -->
+<section class="prose-section">
+    <div class="stacked-section">
+        <h3>Phase Transitions: When Systems Change Discontinuously</h3>
+        <div class="prose-columns">
+            <div>
+                <p>Percolation theory describes the emergence of long-range connectivity in random networks. Below a critical threshold, a network consists of isolated clusters with no path between distant nodes. Above the threshold, a <span class="highlight">giant connected component</span> appears — a spanning structure that links most of the network. The transition is not gradual; it is a phase transition, discontinuous at the critical point.</p>
+                <p>Digital and energy infrastructure exhibits precisely this behaviour. Mobile network penetration, electricity grid coverage, road connectivity, and financial inclusion each have a <span class="highlight">percolation threshold</span> below which utility is local and fragmented, and above which it becomes a systemic enabler of economic participation.</p>
+            </div>
+            <div>
+                <p>The economic value of each does not grow linearly with coverage. It grows <span class="highlight">superlinearly</span> — approaching Metcalfe's Law, in which the value of a network is proportional to the square of its connected nodes. Development investment in infrastructure is, structurally, the act of pushing a system across its percolation threshold.</p>
+                <p>This is why infrastructure investment in frontier economies is so frequently evaluated as disappointing. The productivity gains from connectivity are non-linear and threshold-dependent. <span class="highlight">Measuring impact before the threshold is crossed is measuring the wrong part of the curve.</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Viz: Percolation ===== -->
+<section class="viz-container">
+    <div class="viz-frame">
+        <div class="viz-frame-header">
+            <span class="viz-frame-title">Percolation Threshold — Network Connectivity vs Coverage</span>
+            <span class="viz-frame-badge">Interactive</span>
+        </div>
+        <div class="viz-frame-body" id="viz-percolation"></div>
+    </div>
+</section>
+
+<!-- ===== Attractor States ===== -->
+<section class="prose-section">
+    <div class="stacked-section">
+        <h3>Attractor States: Why Poverty Traps Are Stable</h3>
+        <div class="prose-columns">
+            <div>
+                <p>In dynamical systems, an attractor is a region of state space toward which a system tends to evolve for a wide variety of starting conditions. Most real systems have <span class="highlight">multiple possible attractors</span>, each with its own basin — the set of starting conditions from which the system will eventually reach that attractor rather than any other.</p>
+                <p>Convergence theory holds that economies tend toward a common productivity frontier. Empirical evidence has complicated this considerably: convergence appears <span class="highlight">conditional</span> — operating within clusters of countries with similar institutional structures — rather than global. Countries that do not share these characteristics diverge from the frontier.</p>
+            </div>
+            <div>
+                <p>This is the economics of <span class="highlight">multiple attractor basins</span>. The global productivity frontier is one attractor, but poverty traps — low-equilibrium states characterised by insufficient capital accumulation and institutional fragility — are also attractors. They resist small perturbations.</p>
+                <p>Policy aimed at incremental improvement within the low attractor may not produce convergence — it may simply <span class="highlight">optimise the poverty trap</span>. What is required is a perturbation of sufficient magnitude to cross the basin boundary: a large-scale infrastructure investment, an institutional reform that shifts the attractor geometry itself.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Viz: Attractor Landscape ===== -->
+<section class="viz-container">
+    <div class="viz-frame">
+        <div class="viz-frame-header">
+            <span class="viz-frame-title">Attractor Landscape — Convergence Paths &amp; Poverty Traps</span>
+            <span class="viz-frame-badge">Interactive</span>
+        </div>
+        <div class="viz-frame-body" id="viz-attractor"></div>
+    </div>
+</section>
+
+<!-- ===== Symmetry Breaking ===== -->
+<section class="prose-section">
+    <div class="stacked-section">
+        <h3>Symmetry Breaking: The Diffusion Gap Explained</h3>
+        <div class="prose-columns">
+            <div>
+                <p>The Higgs mechanism describes how the uniform, symmetric state of the early universe differentiated into distinct forces and particles. A field that is perfectly homogeneous contains no structure; structure emerges from <span class="highlight">symmetry breaking</span>.</p>
+                <p>The diffusion gap obeys the same logic. Before a general-purpose technology reaches broad commercial deployment, the knowledge underlying it is approximately homogeneous — research is published in open journals, code is released in open-source repositories. The knowledge field is symmetric: any economy has equal access to the information.</p>
+            </div>
+            <div>
+                <p>Then the technology meets <span class="highlight">differentiated absorptive capacities</span>, and symmetry breaks. The same technology, the same underlying physics, produces radically different economic outcomes across different media. The symmetry of the knowledge field shatters against the asymmetry of institutional capacity.</p>
+                <p>The policy question is therefore not how to distribute knowledge more widely — it is how to <span class="highlight">homogenise the conditions</span> under which the knowledge field interacts with different economic media.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="insight-grid">
+    <div class="insight-card">
+        <span class="insight-icon">🔗</span>
+        <h4>One additional node can tip the network</h4>
+        <p>Infrastructure investment that appears marginally viable individually may be collectively transformative if it represents the increment that crosses the percolation threshold.</p>
+    </div>
+    <div class="insight-card">
+        <span class="insight-icon">🕳️</span>
+        <h4>Poverty traps are attractors, not failures</h4>
+        <p>Low-equilibrium states resist small perturbations. Incremental policy may optimise the trap rather than escape it. Crossing basin boundaries requires large shocks.</p>
+    </div>
+    <div class="insight-card">
+        <span class="insight-icon">💔</span>
+        <h4>Symmetry breaks where capacity differs</h4>
+        <p>The source of divergence is at the interface between uniform knowledge and heterogeneous absorptive capacity. Policy should homogenise the conditions of reception.</p>
+    </div>
+</section>
+
+<section class="cta-row">
+    <p>Next: The unified framework — Impact = Optimization × Diffusion × Use.</p>
+    <a href="framework.html" class="cta-button">Explore Framework <span class="arrow">→</span></a>
+</section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-brand"><span class="brand-accent">⬡</span> Creation Structure</div>
+            <p class="footer-desc">A navigation system for development economics in the 21st century. By Hunter Hughes / H Heuristics.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Framework</h4>
+            <ul class="footer-links">
+                <li><a href="diffusion.html">Diffusion</a></li>
+                <li><a href="structure.html">Structure</a></li>
+                <li><a href="transition.html">Transition</a></li>
+                <li><a href="framework.html">Framework</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>H Heuristics</h4>
+            <ul class="footer-links">
+                <li><a href="https://hheuristics.substack.com" target="_blank" rel="noopener">Substack</a></li>
+                <li><a href="https://hheuristics.com" target="_blank" rel="noopener">H Heuristics</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Hunter Hughes / H Heuristics.</p>
+    </div>
+</footer>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="../assets/js/visualizations.js"></script>
+<script>
+    drawPercolationThreshold('viz-percolation');
+    drawAttractorLandscape('viz-attractor');
+</script>
+</body>
+</html>
