@@ -1,206 +1,296 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Transition: Tipping Points, Attractors & Regime Change — Why economies don't drift, they tip, and the mathematics of phase transitions explains when.">
-    <title>Transition — Creation Structure & Development Economics</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2'%3E%3Cpolygon points='12,2 22,7 22,17 12,22 2,17 2,7'/%3E%3C/svg%3E">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="description" content="Transition: Tipping Points, Attractors &amp; Regime Change — Why economies don't drift, they tip, and the mathematics of phase transitions explains when.">
+<title>Transition — Creation Structure &amp; Development Economics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&amp;family=IBM+Plex+Sans:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@300;400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='2'%3E%3Cpolygon points='12,2 22,7 22,17 12,22 2,17 2,7'/%3E%3C/svg%3E">
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    primary: "#c9a84c",
+                    secondary: "#7eb8da",
+                    background: "#0a0e14",
+                    surface: "#111821",
+                },
+                borderRadius: {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+                },
+                fontFamily: {
+                    "headline": ["Space Grotesk", "sans-serif"],
+                    "display": ["Space Grotesk", "sans-serif"],
+                    "body": ["Source Serif 4", "serif"],
+                    "label": ["IBM Plex Sans", "sans-serif"],
+                    "mono": ["IBM Plex Mono", "monospace"]
+                }
+            }
+        }
+    }
+</script>
+<style>
+    body {
+        background-color: #0a0e14;
+        color: #7eb8da;
+    }
+    .hairline-grid {
+        background-image: linear-gradient(to right, rgba(126, 184, 218, 0.05) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(126, 184, 218, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+    .gold-glow {
+        box-shadow: 0 0 20px rgba(201, 168, 76, 0.1);
+    }
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+    .drop-cap::first-letter {
+        float: left;
+        font-family: 'Space Grotesk';
+        font-size: 4.5rem;
+        line-height: 1;
+        padding-right: 0.75rem;
+        color: #c9a84c;
+        font-weight: 700;
+    }
+    .viz-container svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        background: #c9a84c;
+        color: #0a0e14;
+        padding: 0.5rem 1rem;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        z-index: 200;
+        transition: top 150ms ease;
+        text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+</style>
 </head>
-<body>
+<body class="font-body antialiased">
+
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<header class="masthead">
-    <div class="masthead-inner">
-        <a href="../index.html" class="masthead-brand">
-            <span class="brand-hex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,7 22,17 12,22 2,17 2,7"/></svg></span> Creation Structure
-        </a>
-        <nav aria-label="Main navigation">
-            <ul class="masthead-nav">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="diffusion.html">Diffusion</a></li>
-                <li><a href="structure.html">Structure</a></li>
-                <li><a href="transition.html" class="active" aria-current="page">Transition</a></li>
-                <li><a href="framework.html">Framework</a></li>
-            </ul>
-        </nav>
+<header class="sticky top-0 z-50 flex justify-between items-center px-4 md:px-8 w-full backdrop-blur-sm bg-[#0a0e14] border-b border-[#7eb8da]/20 h-16">
+    <a href="../index.html" class="font-headline text-lg md:text-xl font-bold tracking-tighter text-[#c9a84c] no-underline">
+        CREATION STRUCTURE
+    </a>
+    <nav class="hidden md:flex items-center space-x-6 h-full">
+        <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="../index.html">Home</a>
+        <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="diffusion.html">Diffusion</a>
+        <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="structure.html">Structure</a>
+        <a class="text-[#c9a84c] border-b border-[#c9a84c] font-bold text-sm h-full flex items-center px-2 no-underline" href="transition.html">Transition</a>
+        <a class="text-[#7eb8da] font-label text-sm hover:text-[#c9a84c] transition-colors h-full flex items-center px-2 no-underline" href="framework.html">Framework</a>
+    </nav>
+    <div class="flex items-center space-x-4">
+        <button class="text-[#c9a84c] md:hidden">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
     </div>
 </header>
 
-<main id="main-content">
+<main id="main-content" class="relative hairline-grid">
 
-<section class="page-hero">
-    <div class="page-hero-inner">
-        <div class="volume-label">Volume IV &bull; Regime Transitions</div>
-        <h1>Transition: Tipping Points, Attractors &amp; Regime Change</h1>
-        <p class="subtitle">Why economies don't drift&mdash;they tip, and the mathematics of phase transitions explains when.</p>
+<section class="relative pt-20 md:pt-24 pb-12 md:pb-16 px-4 md:px-8 max-w-7xl mx-auto overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#c9a84c]/5 rounded-full blur-[100px]"></div>
+    <div class="relative z-10">
+        <div class="mb-4 inline-flex items-center space-x-2 px-3 py-1 border border-[#c9a84c]/30 rounded-full">
+            <span class="w-2 h-2 rounded-full bg-[#c9a84c] animate-pulse"></span>
+            <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-[#c9a84c]">Volume IV &bull; Regime Transitions</span>
+        </div>
+        <h1 class="text-4xl md:text-7xl font-headline font-bold text-[#c9a84c] leading-[0.95] tracking-tighter mb-6 max-w-4xl">
+            Transition: Tipping Points, Attractors &amp; Regime Change
+        </h1>
+        <p class="text-xl md:text-2xl text-[#7eb8da] italic font-light max-w-3xl leading-relaxed">
+            Why economies don't drift &mdash; they tip, and the mathematics of phase transitions explains when.
+        </p>
     </div>
 </section>
 
-<section class="stat-row">
-    <div class="stat-card">
-        <div class="stat-card-sub">Measure: P<sub>c</sub> analytics</div>
-        <div class="stat-card-title">Critical Threshold</div>
-        <div class="stat-card-desc">Measure of phase transition probability based on site percolation in square lattices.</div>
-        <div class="stat-card-value">0.5927</div>
+<section class="px-4 md:px-8 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
+    <div class="group border border-[#7eb8da]/10 bg-[#111821]/50 p-6 transition-all hover:border-[#c9a84c]/40">
+        <div class="flex justify-between items-start mb-4">
+            <span class="text-xs font-mono text-[#7eb8da]/50">MEASURE: P<sub>c</sub></span>
+            <span class="material-symbols-outlined text-[#c9a84c] text-xl">analytics</span>
+        </div>
+        <h3 class="text-sm font-label uppercase tracking-widest text-[#7eb8da] mb-2">Critical Threshold</h3>
+        <div class="text-4xl font-headline font-medium text-[#c9a84c]">0.5927</div>
+        <p class="text-xs font-label text-[#7eb8da]/60 mt-2">Measure of phase transition probability based on site percolation in square lattices.</p>
     </div>
-    <div class="stat-card">
-        <div class="stat-card-sub">Stability: &Omega; landscape</div>
-        <div class="stat-card-title">Attractor Basin Width</div>
-        <div class="stat-card-desc">The metric volume of the current economic equilibrium's basin of attraction.</div>
-        <div class="stat-card-value">14.8 &sigma;</div>
+    <div class="group border border-[#7eb8da]/10 bg-[#111821]/50 p-6 transition-all hover:border-[#c9a84c]/40">
+        <div class="flex justify-between items-start mb-4">
+            <span class="text-xs font-mono text-[#7eb8da]/50">STABILITY: &Omega;</span>
+            <span class="material-symbols-outlined text-[#c9a84c] text-xl">landscape</span>
+        </div>
+        <h3 class="text-sm font-label uppercase tracking-widest text-[#7eb8da] mb-2">Attractor Basin Width</h3>
+        <div class="text-4xl font-headline font-medium text-[#c9a84c]">14.8 <span class="text-lg text-[#7eb8da]/40">&sigma;</span></div>
+        <p class="text-xs font-label text-[#7eb8da]/60 mt-2">The metric volume of the current economic equilibrium's basin of attraction.</p>
     </div>
-    <div class="stat-card">
-        <div class="stat-card-sub">Connectivity: p hub</div>
-        <div class="stat-card-title">Percolation p<sub>c</sub></div>
-        <div class="stat-card-desc">Critical density required for global network connectivity and technology diffusion.</div>
-        <div class="stat-card-value">63.2%</div>
+    <div class="group border border-[#7eb8da]/10 bg-[#111821]/50 p-6 transition-all hover:border-[#c9a84c]/40">
+        <div class="flex justify-between items-start mb-4">
+            <span class="text-xs font-mono text-[#7eb8da]/50">CONNECTIVITY: p</span>
+            <span class="material-symbols-outlined text-[#c9a84c] text-xl">hub</span>
+        </div>
+        <h3 class="text-sm font-label uppercase tracking-widest text-[#7eb8da] mb-2">Percolation p<sub>c</sub></h3>
+        <div class="text-4xl font-headline font-medium text-[#c9a84c]">63.2%</div>
+        <p class="text-xs font-label text-[#7eb8da]/60 mt-2">Critical density required for global network connectivity and technology diffusion.</p>
     </div>
 </section>
 
-<section class="prose-section">
-    <div class="stacked-section">
-        <h3>Phase Transitions: When Systems Change Discontinuously</h3>
-        <div class="prose-columns">
-            <div>
-                <p>Economic development is rarely a linear progression. Instead, it mirrors the physical phenomenon of <span class="highlight">percolation</span>. In network theory, connectivity does not grow proportionally with coverage; it jumps. As infrastructure nodes are added to an economy, the system remains a collection of isolated clusters until a precise threshold&mdash;the percolation threshold&mdash;is reached. At this critical density, a <span class="highlight">"giant component"</span> emerges, suddenly linking the entire system.</p>
-                <p>This jump is discontinuous. A single bridge, a single fiber-optic cable, or a single policy shift can be the final node that tips the network from fragmentation to total integration. In development economics, this explains why infrastructure projects often yield <span class="highlight">zero marginal returns for years</span> before suddenly catalyzing an explosion of regional growth.</p>
-            </div>
-            <div>
-                <p>The standard cost-benefit analysis of individual infrastructure projects misses this entirely. The value of a marginal infrastructure investment is not its direct productive utility in isolation; it is its <span class="highlight">contribution to the probability of crossing the threshold</span>. Projects that appear marginally viable individually may be collectively transformative.</p>
-            </div>
-        </div>
-    </div>
-</section>
+<section class="max-w-4xl mx-auto px-4 md:px-8">
 
-<section class="viz-container">
-    <div class="viz-frame">
-        <div class="viz-frame-header">
-            <span class="figure-label">Fig 1.1 &mdash; Simulation Results</span>
-        </div>
-        <div class="viz-frame-body" id="viz-percolation"></div>
-        <div style="padding: var(--space-sm) var(--space-lg);">
-            <p class="figure-caption">Percolation Threshold &mdash; Network Connectivity vs Coverage</p>
-        </div>
-    </div>
-</section>
-
-<section class="prose-section">
-    <div class="stacked-section">
-        <h3>Attractor States: Why Poverty Traps Are Stable</h3>
-        <div class="prose-columns">
-            <div>
-                <p>Why do some economies remain stagnant despite decades of intervention? The answer lies in the topology of <span class="highlight">attractor basins</span>. Using the language of dynamical systems, we can visualize the economic state of a nation as a point on a complex potential landscape. Stable equilibria, or "attractors," are the valleys in this landscape where the system naturally settles.</p>
-            </div>
-            <div>
-                <p>A poverty trap is not a failure of the system; it is a <span class="highlight">highly stable, self-reinforcing equilibrium</span>. Minor policy changes are like small nudges to a ball at the bottom of a deep well; the ball rolls back to its original position. To "transition" out of such a state, the system requires a shock large enough to push the economy over the ridge of the basin and into a different, more prosperous attractor.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="viz-container">
-    <div class="viz-frame">
-        <div class="viz-frame-header">
-            <span class="figure-label">Fig 1.2 &mdash; Topographical Analysis</span>
-        </div>
-        <div class="viz-frame-body" id="viz-attractor"></div>
-        <div style="padding: var(--space-sm) var(--space-lg);">
-            <p class="figure-caption">Attractor Landscape &mdash; Convergence Paths &amp; Poverty Traps</p>
-        </div>
-    </div>
-</section>
-
-<section class="prose-section">
-    <div class="stacked-section">
-        <h3>Symmetry Breaking: The Diffusion Gap Explained</h3>
-        <div class="prose-columns">
-            <div>
-                <p>In theoretical physics, the Higgs mechanism explains how a uniform field can interact with different particles to grant them mass, effectively <span class="highlight">breaking the symmetry of the vacuum</span>. We apply this to technology diffusion. Consider a global "field" of technological innovation that is uniform across the globe.</p>
-                <p>When this field meets heterogeneous local capacities (the "mass" of human capital, legal institutions, and infrastructure), symmetry is broken. Regions with higher capacity interact more strongly with the innovation field, gaining more <span class="highlight">"economic mass"</span> and creating a divergence gap. The result is a fractured global landscape where the same technology creates vastly different outcomes based on the local medium it passes through.</p>
-            </div>
-            <div>
-                <div class="quote-block">
-                    <p>"The symmetry of the knowledge field shatters against the asymmetry of institutional capacity."</p>
+    <article class="py-16 border-t border-[#7eb8da]/20">
+        <div class="flex flex-col md:flex-row gap-12">
+            <div class="flex-1">
+                <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Phase Transitions: When Systems Change Discontinuously</h2>
+                <div class="max-w-none">
+                    <p class="drop-cap text-lg text-[#7eb8da]/90 leading-relaxed mb-6 italic">
+                        Economic development is rarely a linear progression. Instead, it mirrors the physical phenomenon of percolation. In network theory, connectivity does not grow proportionally with coverage; it jumps. As infrastructure nodes are added to an economy, the system remains a collection of isolated clusters until a precise threshold&mdash;the percolation threshold&mdash;is reached. At this critical density, a "giant component" emerges, suddenly linking the entire system.
+                    </p>
+                    <p class="text-[#7eb8da]/80 leading-relaxed">
+                        This jump is discontinuous. A single bridge, a single fiber-optic cable, or a single policy shift can be the final node that tips the network from fragmentation to total integration. In development economics, this explains why infrastructure projects often yield zero marginal returns for years before suddenly catalyzing an explosion of regional growth.
+                    </p>
                 </div>
             </div>
         </div>
+        <div class="mt-12 group relative border border-[#7eb8da]/20 aspect-video bg-[#0d1117] overflow-hidden">
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center pointer-events-none z-10">
+                <span class="text-[10px] font-mono text-[#c9a84c] mb-2 tracking-widest uppercase">Fig 1.1 &mdash; Simulation Results</span>
+                <h4 class="text-xl font-headline font-medium text-white">Percolation Threshold &mdash; Network Connectivity vs Coverage</h4>
+            </div>
+            <div class="viz-container absolute inset-0" id="viz-percolation"></div>
+        </div>
+    </article>
+
+    <article class="py-16 border-t border-[#7eb8da]/20">
+        <div class="flex flex-col md:flex-row gap-12">
+            <div class="flex-1">
+                <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Attractor States: Why Poverty Traps Are Stable</h2>
+                <div class="max-w-none">
+                    <p class="text-lg text-[#7eb8da]/90 leading-relaxed mb-6">
+                        Why do some economies remain stagnant despite decades of intervention? The answer lies in the topology of attractor basins. Using the language of dynamical systems, we can visualize the economic state of a nation as a point on a complex potential landscape. Stable equilibria, or "attractors," are the valleys in this landscape where the system naturally settles.
+                    </p>
+                    <p class="text-[#7eb8da]/80 leading-relaxed">
+                        A poverty trap is not a failure of the system; it is a highly stable, self-reinforcing equilibrium. Minor policy changes are like small nudges to a ball at the bottom of a deep well; the ball rolls back to its original position. To "transition" out of such a state, the system requires a shock large enough to push the economy over the ridge of the basin and into a different, more prosperous attractor.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 group relative border border-[#7eb8da]/20 aspect-video bg-[#0d1117] overflow-hidden">
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center pointer-events-none z-10">
+                <span class="text-[10px] font-mono text-[#c9a84c] mb-2 tracking-widest uppercase">Fig 1.2 &mdash; Topographical Analysis</span>
+                <h4 class="text-xl font-headline font-medium text-white">Attractor Landscape &mdash; Convergence Paths &amp; Poverty Traps</h4>
+            </div>
+            <div class="viz-container absolute inset-0" id="viz-attractor"></div>
+        </div>
+    </article>
+
+    <article class="py-16 border-t border-[#7eb8da]/20 mb-16">
+        <div class="flex flex-col md:flex-row gap-12">
+            <div class="flex-1">
+                <h2 class="text-3xl md:text-4xl font-headline font-bold text-[#c9a84c] mb-6">Symmetry Breaking: The Diffusion Gap Explained</h2>
+                <div class="max-w-none">
+                    <p class="text-lg text-[#7eb8da]/90 leading-relaxed mb-6">
+                        In theoretical physics, the Higgs mechanism explains how a uniform field can interact with different particles to grant them mass, effectively breaking the symmetry of the vacuum. We apply this to technology diffusion. Consider a global "field" of technological innovation that is uniform across the globe.
+                    </p>
+                    <p class="text-[#7eb8da]/80 leading-relaxed">
+                        When this field meets heterogeneous local capacities (the "mass" of human capital, legal institutions, and infrastructure), symmetry is broken. Regions with higher capacity interact more strongly with the innovation field, gaining more "economic mass" and creating a divergence gap. The result is a fractured global landscape where the same technology creates vastly different outcomes based on the local medium it passes through.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+</section>
+
+<section class="bg-[#111821]/30 border-y border-[#7eb8da]/10 py-24 px-4 md:px-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-12 text-center">
+            <span class="text-xs font-mono uppercase tracking-[0.4em] text-[#c9a84c]">Theoretical Syntheses</span>
+            <h2 class="text-3xl font-headline font-bold text-[#7eb8da] mt-2">Core Transition Principles</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-8 border border-[#c9a84c]/20 bg-[#0a0e14]/80 relative overflow-hidden group hover:border-[#c9a84c]/60 transition-all">
+                <div class="absolute -right-4 -bottom-4 text-[#c9a84c]/5 group-hover:text-[#c9a84c]/10 transition-colors">
+                    <span class="material-symbols-outlined text-9xl">hub</span>
+                </div>
+                <div class="h-1 w-12 bg-[#c9a84c] mb-6"></div>
+                <h4 class="text-xl font-headline font-bold text-[#c9a84c] mb-4 leading-tight">One additional node can tip the network</h4>
+                <p class="text-[#7eb8da]/70 font-body text-sm leading-relaxed">The transition from isolated regional markets to a national economic powerhouse is often a non-linear event triggered by a single critical connection.</p>
+            </div>
+            <div class="p-8 border border-[#c9a84c]/20 bg-[#0a0e14]/80 relative overflow-hidden group hover:border-[#c9a84c]/60 transition-all">
+                <div class="absolute -right-4 -bottom-4 text-[#c9a84c]/5 group-hover:text-[#c9a84c]/10 transition-colors">
+                    <span class="material-symbols-outlined text-9xl">cyclone</span>
+                </div>
+                <div class="h-1 w-12 bg-[#c9a84c] mb-6"></div>
+                <h4 class="text-xl font-headline font-bold text-[#c9a84c] mb-4 leading-tight">Poverty traps are attractors, not failures</h4>
+                <p class="text-[#7eb8da]/70 font-body text-sm leading-relaxed">Under-development is a stable mathematical state maintained by internal feedback loops, requiring high-energy intervention to escape.</p>
+            </div>
+            <div class="p-8 border border-[#c9a84c]/20 bg-[#0a0e14]/80 relative overflow-hidden group hover:border-[#c9a84c]/60 transition-all">
+                <div class="absolute -right-4 -bottom-4 text-[#c9a84c]/5 group-hover:text-[#c9a84c]/10 transition-colors">
+                    <span class="material-symbols-outlined text-9xl">mediation</span>
+                </div>
+                <div class="h-1 w-12 bg-[#c9a84c] mb-6"></div>
+                <h4 class="text-xl font-headline font-bold text-[#c9a84c] mb-4 leading-tight">Symmetry breaks where capacity differs</h4>
+                <p class="text-[#7eb8da]/70 font-body text-sm leading-relaxed">Global inequality is the inevitable outcome of a uniform technological field interacting with varying local institutional densities.</p>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="prose-section">
-    <h2>Theoretical Syntheses</h2>
-    <p class="section-eyebrow">Core Transition Principles</p>
-</section>
-
-<section class="insight-grid">
-    <div class="insight-card">
-        <div class="section-eyebrow">hub</div>
-        <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/><circle cx="17" cy="7" r="1.5"/><circle cx="7" cy="17" r="1.5"/><line x1="17" y1="7" x2="7" y2="17"/><line x1="7" y1="7" x2="17" y2="17" stroke-dasharray="2 2"/></svg></span>
-        <h4>One additional node can tip the network</h4>
-        <p>The transition from isolated regional markets to a national economic powerhouse is often a non-linear event triggered by a single critical connection.</p>
+<section class="py-24 px-4 md:px-8 text-center max-w-2xl mx-auto">
+    <h3 class="text-2xl font-headline font-medium text-[#c9a84c] mb-6">Explore the Mathematical Foundation of Modern Markets</h3>
+    <p class="text-[#7eb8da]/60 mb-8 font-body">Sign up for our quarterly print journal, delivering deep-dives into the physics of economic development.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <input class="bg-transparent border border-[#7eb8da]/30 text-[#7eb8da] px-6 py-3 min-w-[280px] focus:outline-none focus:border-[#c9a84c] transition-colors font-label text-sm" placeholder="Institutional Email Address" type="email"/>
+        <a href="https://hheuristics.substack.com" target="_blank" rel="noopener" class="bg-[#c9a84c] text-[#0a0e14] px-8 py-3 font-headline font-bold uppercase tracking-widest hover:bg-[#c9a84c]/90 transition-all no-underline inline-flex items-center justify-center text-sm">Subscribe</a>
     </div>
-    <div class="insight-card">
-        <div class="section-eyebrow">cyclone</div>
-        <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 14c4-6 16-6 20 0" fill="currentColor" fill-opacity="0.1"/><circle cx="12" cy="18" r="1.5" fill="currentColor"/></svg></span>
-        <h4>Poverty traps are attractors, not failures</h4>
-        <p>Under-development is a stable mathematical state maintained by internal feedback loops, requiring high-energy intervention to escape.</p>
-    </div>
-    <div class="insight-card">
-        <div class="section-eyebrow">mediation</div>
-        <span class="insight-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="3" x2="12" y2="21"/><path d="M4 8l4-4 8 8"/><path d="M20 16l-4 4-8-8"/></svg></span>
-        <h4>Symmetry breaks where capacity differs</h4>
-        <p>Global inequality is the inevitable outcome of a uniform technological field interacting with varying local institutional densities.</p>
-    </div>
-</section>
-
-<section class="newsletter-cta">
-    <h3>Explore the Mathematical Foundation of Modern Markets</h3>
-    <p>Sign up for our quarterly print journal, delivering deep-dives into the physics of economic development.</p>
-    <a href="https://hheuristics.substack.com" target="_blank" rel="noopener" class="cta-button">Subscribe <span class="arrow">&rarr;</span></a>
-</section>
-
-<section class="cta-row">
-    <p>Next: The unified framework — Impact = Optimization &times; Diffusion &times; Use.</p>
-    <a href="framework.html" class="cta-button">Explore Framework <span class="arrow">&rarr;</span></a>
 </section>
 
 </main>
 
-<footer class="site-footer">
-    <div class="footer-inner">
-        <div>
-            <div class="footer-brand"><span class="brand-hex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,7 22,17 12,22 2,17 2,7"/></svg></span> Creation Structure</div>
-            <p class="footer-desc">A navigation system for development economics in the 21st century. By Hunter Hughes / H Heuristics.</p>
-        </div>
-        <div class="footer-col">
-            <h4>Framework</h4>
-            <ul class="footer-links">
-                <li><a href="diffusion.html">Diffusion</a></li>
-                <li><a href="structure.html">Structure</a></li>
-                <li><a href="transition.html">Transition</a></li>
-                <li><a href="framework.html">Framework</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>H Heuristics</h4>
-            <ul class="footer-links">
-                <li><a href="https://hheuristics.substack.com" target="_blank" rel="noopener">Substack</a></li>
-                <li><a href="https://hheuristics.com" target="_blank" rel="noopener">H Heuristics</a></li>
-            </ul>
-        </div>
+<footer class="w-full py-12 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center border-t border-[#7eb8da]/20 bg-[#0a0e14]">
+    <div class="mb-8 md:mb-0">
+        <div class="font-headline text-lg font-medium text-[#c9a84c] mb-2">Creation Structure &amp; Development Economics</div>
+        <div class="font-body text-sm italic text-[#7eb8da]/80">&copy; 2026 Hunter Hughes / H Heuristics. The grammar of spread is universal.</div>
     </div>
-    <div class="footer-bottom">
-        <p>&copy; 2026 Hunter Hughes / H Heuristics.</p>
+    <div class="flex space-x-6">
+        <a class="text-[#7eb8da] hover:text-[#c9a84c] transition-colors font-label text-sm no-underline" href="../index.html">Home</a>
+        <a class="text-[#7eb8da] hover:text-[#c9a84c] transition-colors font-label text-sm no-underline" href="diffusion.html">Diffusion</a>
+        <a class="text-[#7eb8da] hover:text-[#c9a84c] transition-colors font-label text-sm no-underline" href="structure.html">Structure</a>
+        <a class="text-[#7eb8da] hover:text-[#c9a84c] transition-colors font-label text-sm no-underline" href="framework.html">Framework</a>
     </div>
 </footer>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="../assets/js/visualizations.js"></script>
 <script>
+    // Adapt D3 viz for Stitch containers (aspect-video with overlay)
     drawPercolationThreshold('viz-percolation');
     drawAttractorLandscape('viz-attractor');
+
+    // Hover lift on cards
+    document.querySelectorAll('.group').forEach(function(card) {
+        card.addEventListener('mouseenter', function() { card.style.transform = 'translateY(-2px)'; });
+        card.addEventListener('mouseleave', function() { card.style.transform = 'translateY(0)'; });
+    });
 </script>
 </body>
 </html>
