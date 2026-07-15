@@ -154,162 +154,170 @@ function drawNetworkTopology(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const width = container.clientWidth;
-    const height = 450;
+    // Fallback width — ensure we never get 0
+    var width = container.clientWidth || container.parentElement.clientWidth || 800;
+    if (width < 100) width = 800;
+    var height = 440;
 
-    const svg = d3.select(container)
+    var svg = d3.select(container)
         .append('svg')
-        .attr('viewBox', `0 0 ${width} ${height}`)
+        .attr('viewBox', '0 0 ' + width + ' ' + height)
         .attr('preserveAspectRatio', 'xMidYMid meet')
         .attr('role', 'img')
         .attr('aria-label', 'Network topology: hub and peripheral nodes with animated diffusion pulses');
 
-    const g = svg.append('g');
+    var g = svg.append('g');
 
-    // Generate random nodes
-    const numNodes = 80;
-    const nodes = [];
-    const hubNodes = [0, 1, 2, 3]; // hub indices
+    // Generate nodes with deterministic seed for visual consistency
+    var numNodes = 80;
+    var hubIds = [0, 1, 2, 3];
+    var nodes = [];
 
-    for (let i = 0; i < numNodes; i++) {
-        if (hubNodes.includes(i)) {
-            nodes.push({
-                id: i,
-                x: width * (0.2 + Math.random() * 0.6),
-                y: height * (0.2 + Math.random() * 0.6),
-                isHub: true,
-                r: 6 + Math.random() * 4
-            });
-        } else {
-            nodes.push({
-                id: i,
-                x: width * (0.05 + Math.random() * 0.9),
-                y: height * (0.05 + Math.random() * 0.9),
-                isHub: false,
-                r: 2 + Math.random() * 2
-            });
-        }
+    function pseudoRandom(seed) {
+        var x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
     }
 
-    // Generate links — preferential attachment to hubs
-    const links = [];
-    for (let i = 0; i < numNodes; i++) {
-        const numLinks = nodes[i].isHub ? 15 + Math.floor(Math.random() * 20) : 1 + Math.floor(Math.random() * 3);
-        const targets = new Set();
-        for (let j = 0; j < numLinks && targets.size < numNodes - 1; j++) {
-            // Prefer connecting to hubs
-            const targetPool = Math.random() < 0.7 ? hubNodes : d3.range(numNodes).filter(k => k !== i);
-            const target = targetPool[Math.floor(Math.random() * targetPool.length)];
-            if (target !== i && !targets.has(target)) {
-                targets.add(target);
-                links.push({ source: i, target });
+    for (var i = 0; i < numNodes; i++) {
+        var isHub = hubIds.indexOf(i) !== -1;
+        nodes.push({
+            id: i,
+            x: width * (0.15 + pseudoRandom(i * 7 + 1) * 0.7),
+            y: height * (0.15 + pseudoRandom(i * 7 + 2) * 0.7),
+            isHub: isHub,
+            r: isHub ? 6 + pseudoRandom(i + 10) * 4 : 2 + pseudoRandom(i + 20) * 2.5
+        });
+    }
+
+    // Generate links with preferential attachment to hubs
+    var links = [];
+    for (var i = 0; i < numNodes; i++) {
+        var numLinks = nodes[i].isHub ? 14 + Math.floor(pseudoRandom(i + 30) * 18) : 1 + Math.floor(pseudoRandom(i + 40) * 3);
+        var targets = {};
+        for (var j = 0; j < numLinks && Object.keys(targets).length < numNodes - 1; j++) {
+            var preferHub = pseudoRandom(i * 13 + j * 17) < 0.7;
+            var target;
+            if (preferHub) {
+                target = hubIds[Math.floor(pseudoRandom(i + j * 31) * hubIds.length)];
+            } else {
+                target = Math.floor(pseudoRandom(i * 19 + j * 23) * numNodes);
+            }
+            if (target !== i && !targets[target]) {
+                targets[target] = true;
+                links.push({ source: i, target: target });
             }
         }
     }
 
     // Force simulation
-    const simulation = d3.forceSimulation(nodes)
-        .force('link', d3.forceLink(links).id(d => d.id).distance(d => {
-            return (nodes[d.source.id || d.source].isHub || nodes[d.target.id || d.target].isHub) ? 60 : 120;
-        }))
-        .force('charge', d3.forceManyBody().strength(d => d.isHub ? -200 : -30))
+    var simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(function(d) { return d.id; }).distance(70))
+        .force('charge', d3.forceManyBody().strength(function(d) { return d.isHub ? -180 : -35; }))
         .force('center', d3.forceCenter(width / 2, height / 2))
-        .force('collision', d3.forceCollide().radius(d => d.r + 3));
+        .force('collision', d3.forceCollide().radius(function(d) { return d.r + 2; }));
 
-    // Draw links
-    const link = g.append('g')
-        .selectAll('line')
+    // Draw links (background)
+    var link = g.selectAll('.bg-link')
         .data(links)
         .enter().append('line')
-        .attr('stroke', 'rgba(126,184,218,0.12)')
+        .attr('class', 'bg-link')
+        .attr('stroke', 'rgba(126,184,218,0.1)')
         .attr('stroke-width', 0.5);
 
-    // Highlighted diffusion links (animate a few)
-    const diffusionLinks = links.slice(0, 20);
-    const diffusionLine = g.append('g')
-        .selectAll('line')
-        .data(diffusionLinks)
-        .enter().append('line')
-        .attr('stroke', '#c9a84c')
-        .attr('stroke-width', 1.5)
-        .attr('stroke-dasharray', '4,4')
-        .attr('opacity', 0);
-
     // Draw nodes
-    const node = g.append('g')
-        .selectAll('circle')
+    var node = g.selectAll('.node')
         .data(nodes)
         .enter().append('circle')
-        .attr('r', d => d.r)
-        .attr('fill', d => d.isHub ? '#c9a84c' : '#7eb8da')
-        .attr('opacity', d => d.isHub ? 0.9 : 0.6)
-        .attr('stroke', d => d.isHub ? '#d4b860' : 'none')
-        .attr('stroke-width', d => d.isHub ? 2 : 0);
+        .attr('class', 'node')
+        .attr('r', function(d) { return d.r; })
+        .attr('fill', function(d) { return d.isHub ? '#c9a84c' : '#7eb8da'; })
+        .attr('opacity', function(d) { return d.isHub ? 0.9 : 0.5; })
+        .attr('stroke', function(d) { return d.isHub ? '#d4b860' : 'none'; })
+        .attr('stroke-width', function(d) { return d.isHub ? 1.5 : 0; });
 
     // Hub labels
-    const labels = g.append('g')
-        .selectAll('text')
-        .data(nodes.filter(d => d.isHub))
+    var labels = g.selectAll('.hub-label')
+        .data(nodes.filter(function(d) { return d.isHub; }))
         .enter().append('text')
+        .attr('class', 'hub-label')
         .attr('text-anchor', 'middle')
         .attr('dy', -12)
         .attr('fill', '#c9a84c')
         .attr('font-family', 'IBM Plex Sans')
         .attr('font-size', '9px')
         .attr('font-weight', '600')
-        .text(d => `Hub ${d.id}`);
+        .text(function(d) { return 'Hub ' + d.id; });
 
     // Tick
-    simulation.on('tick', () => {
+    simulation.on('tick', function() {
         link
-            .attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y);
-
-        diffusionLine
-            .attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y);
+            .attr('x1', function(d) { return d.source.x; })
+            .attr('y1', function(d) { return d.source.y; })
+            .attr('x2', function(d) { return d.target.x; })
+            .attr('y2', function(d) { return d.target.y; });
 
         node
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y);
+            .attr('cx', function(d) { return d.x; })
+            .attr('cy', function(d) { return d.y; });
 
         labels
-            .attr('x', d => d.x)
-            .attr('y', d => d.y);
+            .attr('x', function(d) { return d.x; })
+            .attr('y', function(d) { return d.y; });
     });
 
-    // Animate diffusion through network
-    function animateDiffusion() {
-        diffusionLine
-            .attr('opacity', 0)
+    // Diffusion pulse animation — creates and removes temporary gold lines
+    function pulseDiffusion() {
+        // Pick a random hub and trace paths through connected nodes
+        var hub = nodes[hubIds[Math.floor(Math.random() * hubIds.length)]];
+        var connectedLinks = links.filter(function(l) {
+            var srcId = l.source.id !== undefined ? l.source.id : l.source;
+            var tgtId = l.target.id !== undefined ? l.target.id : l.target;
+            return srcId === hub.id || tgtId === hub.id;
+        }).slice(0, 8);
+
+        var pulseLines = g.selectAll('.pulse')
+            .data(connectedLinks)
+            .enter().append('line')
+            .attr('class', 'pulse')
+            .attr('stroke', '#c9a84c')
+            .attr('stroke-width', 1.5)
+            .attr('stroke-dasharray', '4,4')
+            .attr('opacity', 0);
+
+        // Position them
+        pulseLines
+            .attr('x1', function(d) { return d.source.x; })
+            .attr('y1', function(d) { return d.source.y; })
+            .attr('x2', function(d) { return d.target.x; })
+            .attr('y2', function(d) { return d.target.y; });
+
+        // Animate in then out
+        pulseLines.transition()
+            .duration(1500)
+            .attr('opacity', 0.8)
             .transition()
-            .duration(2000)
-            .attr('opacity', 0.7)
-            .transition()
-            .duration(2000)
+            .duration(1500)
             .attr('opacity', 0)
-            .on('end', () => {
-                // Pick new random set
-                const shuffled = [...links].sort(() => Math.random() - 0.5).slice(0, 20);
-                diffusionLine.data(shuffled);
-                animateDiffusion();
+            .remove()
+            .on('end', function() {
+                // Small delay then next pulse
+                setTimeout(pulseDiffusion, 400);
             });
     }
 
-    animateDiffusion();
+    // Start pulsing after simulation settles
+    simulation.on('end', function() {
+        setTimeout(pulseDiffusion, 500);
+    });
 
     // Legend
     svg.append('text')
         .attr('x', 20)
         .attr('y', 25)
-        .attr('fill', '#6e7686')
+        .attr('fill', '#8892a0')
         .attr('font-family', 'IBM Plex Sans')
         .attr('font-size', '10px')
-        .text('● Hub nodes  ● Peripheral nodes  — Diffusion pulse');
+        .text('\u25CF Hub nodes  \u25CF Peripheral nodes  \u2014 Diffusion pulse');
 }
 
 // --- Percolation Threshold (for Transition page) ---
